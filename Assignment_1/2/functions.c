@@ -1,51 +1,43 @@
 #include "functions.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
+
+int max_min_array_size = 0;
 
 int *IntersectionArray(int *Arr1, int *Arr2, int lenArr1, int lenArr2) {}
 
-int countCharOccurences(const char *str, int length, char ch)
-{
+int countCharOccurences(const char *str, int length, char ch) {
   int res = 0;
-  for (int i = 0; i < length; ++i)
-  {
+  for (int i = 0; i < length; ++i) {
     res += str[i] == ch;
   }
 
   return res;
 }
 
-char findFirstNonRepeatingChar(const char *str, int length)
-{
-  for (int i = 0; i < length; ++i)
-  {
+char findFirstNonRepeatingChar(const char *str, int length) {
+  for (int i = 0; i < length; ++i) {
     int flag = 0;
-    for (int j = 0; j < length; ++j)
-    {
+    for (int j = 0; j < length; ++j) {
       if (i == j)
         continue;
 
-      if (str[i] == str[j])
-      {
+      if (str[i] == str[j]) {
         flag = 1;
         break;
       }
     }
-    if (flag == 0)
-    {
+    if (flag == 0) {
       return str[i];
     }
   }
   return ' ';
 }
 
-int length(const char *string)
-{
+int length(const char *string) {
   if (string[0] == '\0')
     return 0;
-  else
-  {
+  else {
     int res = 0;
     while (string[++res] != '\0')
       ;
@@ -53,42 +45,34 @@ int length(const char *string)
   }
 }
 
-void concat(char *destination, const char *source)
-{
+void concat(char *destination, const char *source) {
   int len_destination = length(destination);
   int len_source = length(source);
 
-  for (int i = len_destination; i <= len_destination + len_source; ++i)
-  {
+  for (int i = len_destination; i <= len_destination + len_source; ++i) {
     destination[i] = source[i - len_destination];
   }
 }
 
-char *findLongestCommonPrefix(char **strs, int numStr, int maxLen)
-{
+char *findLongestCommonPrefix(char **strs, int numStr, int maxLen) {
   char *res = (char *)malloc(sizeof(char) * maxLen);
   int flag = 0;
   char c = 0;
   char c_string[2] = {c, '\0'};
 
   int minLen = maxLen;
-  for (int i = 0; i < numStr; ++i)
-  {
+  for (int i = 0; i < numStr; ++i) {
     int l = length(strs[i]);
-    if (l < minLen)
-    {
+    if (l < minLen) {
       minLen = l;
     }
   }
 
-  for (int i = 0; i < minLen; ++i)
-  {
+  for (int i = 0; i < minLen; ++i) {
     flag = 0;
     c = strs[0][i];
-    for (int j = 0; j < numStr; ++j)
-    {
-      if (strs[j][i] != c)
-      {
+    for (int j = 0; j < numStr; ++j) {
+      if (strs[j][i] != c) {
         flag = 1;
         break;
       }
@@ -102,37 +86,28 @@ char *findLongestCommonPrefix(char **strs, int numStr, int maxLen)
   return res;
 }
 
-int *MaxMin(int *Arr, int lenArr)
-{
-  int highest = 0, secondHighest = 0, lowest = 1000000, secondLowest = 1000000;
-  int cur;
+int min(int x, int y) { return x > y ? y : x; }
+int max(int x, int y) { return x > y ? x : y; }
 
-  for (int i = 0; i < lenArr; ++i)
-  {
-    cur = Arr[i];
-    if (cur > highest)
-    {
-      secondHighest = highest;
-      highest = cur;
-    }
-    else if (cur >= secondHighest)
-    {
-      secondHighest = cur;
-    }
+int *MaxMin(int *Arr, int lenArr) {
+  int runningMax[lenArr];
+  int runningMinRev[lenArr];
 
-    if (cur < lowest)
-    {
-      secondLowest = lowest;
-      lowest = cur;
-    }
-    else if (cur <= secondLowest)
-    {
-      secondLowest = cur;
-    }
+  runningMax[0] = 0;
+  for (int i = 1; i < lenArr; ++i) {
+    runningMax[i] = max(runningMax[i - 1], Arr[i - 1]);
   }
 
-  // printf("Highest: %i\n", highest);
-  // printf("Second Highest: %i\n", secondHighest);
-  // printf("Lowest: %i\n", lowest);
-  // printf("Second Lowest: %i\n", secondLowest);
+  runningMinRev[lenArr - 1] = 1000001;
+  for (int i = lenArr - 2; i >= 0; --i) {
+    runningMinRev[i] = min(runningMinRev[i + 1], Arr[i + 1]);
+  }
+
+  int *res = (int *)malloc(sizeof(int) * lenArr);
+  for (int i = 0; i < lenArr; ++i) {
+    if (Arr[i] > runningMax[i] && Arr[i] < runningMinRev[i]) {
+      res[max_min_array_size++] = i;
+    }
+  }
+  return res;
 }

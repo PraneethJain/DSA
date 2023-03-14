@@ -66,6 +66,10 @@ int main() {
       }
 
       int *indices = MaxMin(arr, n);
+      for (int i = 0; i < max_min_array_size; ++i) {
+        printf("%i ", indices[i]);
+      }
+      printf("\n");
 
     } else {
     }
