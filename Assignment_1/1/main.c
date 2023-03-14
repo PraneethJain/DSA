@@ -10,7 +10,8 @@ int main() {
   char choice[10];
   for (int i = 0; i < T; ++i) {
     scanf("%s", choice);
-    if (strcmp(choice, "OPER1") == 0) {
+    char x = choice[4];
+    if (x == '1') {
 
       int n;
       scanf("%i", &n);
@@ -19,7 +20,7 @@ int main() {
       reverseString(s, n);
       printf("%s\n", s);
 
-    } else if (strcmp(choice, "OPER2") == 0) {
+    } else if (x == '2') {
 
       int n;
       scanf("%i", &n);
@@ -28,7 +29,7 @@ int main() {
       char *compressedString = compressString(s, n);
       printf("%s\n", compressedString);
 
-    } else if (strcmp(choice, "OPER3") == 0) {
+    } else if (x == '3') {
 
       int n;
       scanf("%i", &n);
@@ -42,7 +43,7 @@ int main() {
       }
       printf("\n");
 
-    } else if (strcmp(choice, "OPER4") == 0) {
+    } else if (x == '4') {
 
       int R, C;
       scanf("%i %i", &R, &C);
