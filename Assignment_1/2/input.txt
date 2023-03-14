@@ -1,0 +1,18 @@
+5
+OPER5
+10
+1 4 8 7 5 9 17 11 40 10
+OPER1
+6 7
+1 2 3 4 5 6
+7 9 1 4 8 2 3
+OPER2
+helloworld
+l
+OPER3
+lleetcode
+OPER4
+3
+flower
+flow
+flight
