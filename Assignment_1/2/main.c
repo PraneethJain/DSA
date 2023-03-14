@@ -1,7 +1,6 @@
 #include "functions.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
 int main() {
   int T;
@@ -9,7 +8,8 @@ int main() {
   char choice[100];
   for (int i = 0; i < T; ++i) {
     scanf("%s", choice);
-    if (strcmp(choice, "OPER1") == 0) {
+    char x = choice[4];
+    if (x == '1') {
 
       int n1, n2;
       scanf("%i %i", &n1, &n2);
@@ -28,22 +28,22 @@ int main() {
       }
       printf("\n");
 
-    } else if (strcmp(choice, "OPER2") == 0) {
+    } else if (x == '2') {
 
       char str[10000];
       scanf("%s", str);
       char c;
       scanf("%c", &c);
       scanf("%c", &c);
-      printf("%i\n", countCharOccurences(str, strlen(str), c));
+      printf("%i\n", countCharOccurences(str, str_length(str), c));
 
-    } else if (strcmp(choice, "OPER3") == 0) {
+    } else if (x == '3') {
 
       char str[10000];
       scanf("%s", str);
-      printf("%c\n", findFirstNonRepeatingChar(str, strlen(str)));
+      printf("%c\n", findFirstNonRepeatingChar(str, str_length(str)));
 
-    } else if (strcmp(choice, "OPER4") == 0) {
+    } else if (x == '4') {
 
       int n;
       scanf("%i", &n);
@@ -61,7 +61,7 @@ int main() {
 
       printf("%s\n", prefix);
 
-    } else if (strcmp(choice, "OPER5") == 0) {
+    } else if (x == '5') {
 
       int n;
       scanf("%i", &n);
@@ -75,7 +75,6 @@ int main() {
         printf("%i ", indices[i]);
       }
       printf("\n");
-
     }
   }
 
