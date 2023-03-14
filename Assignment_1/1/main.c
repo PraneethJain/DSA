@@ -23,7 +23,7 @@ int main() {
 
       int n;
       scanf("%i", &n);
-      char s[n+1];
+      char s[n + 1];
       scanf("%s", s);
       char *compressedString = compressString(s, n);
       printf("%s\n", compressedString);
@@ -36,7 +36,11 @@ int main() {
       for (int i = 0; i < n; ++i) {
         scanf("%i", &arr[i]);
       }
-      // Implement Operation 3
+      int *unique_arr = uniqueElements(arr, n);
+      for (int i = 0; i < unique_elements_count; ++i) {
+        printf("%i ", unique_arr[i]);
+      }
+      printf("\n");
 
     } else if (strcmp(choice, "OPER4") == 0) {
 
@@ -47,19 +51,15 @@ int main() {
         *(matrix + i) = (int *)malloc(sizeof(int) * C);
       }
 
-      for (int i = 0; i < R; ++i)
-      {
-        for (int j = 0; j < C; ++j)
-        {
+      for (int i = 0; i < R; ++i) {
+        for (int j = 0; j < C; ++j) {
           scanf("%i", &matrix[i][j]);
         }
       }
 
       int **transposed_matrix = transpose(matrix, R, C);
-      for (int i = 0; i < C; ++i)
-      {
-        for (int j = 0; j < R; ++j)
-        {
+      for (int i = 0; i < C; ++i) {
+        for (int j = 0; j < R; ++j) {
           printf("%i ", transposed_matrix[i][j]);
         }
         printf("\n");

@@ -3,6 +3,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+int unique_elements_count = 0;
+
 void swap(char *x, char *y) {
   char temp = *x;
   *x = *y;
@@ -15,7 +17,17 @@ void reverseString(char *str, int length) {
   }
 }
 
-// int *uniqueElements(int *arr, int length) {}
+int *uniqueElements(int *arr, int length) {
+  int map[1000001] = {0};
+  int *res = (int *)malloc(sizeof(int) * length);
+  for (int i = 0; i < length; ++i) {
+    map[arr[i]]++;
+    if (map[arr[i]] == 1)
+      res[unique_elements_count++] = arr[i];
+  }
+
+  return res;
+}
 
 int ceil_log_10(int x) {
   int res = 1;
@@ -104,6 +116,22 @@ void print_matrix(int **matrix, int NumRow, int NumCol) {
   printf("\n");
 }
 
+// int main()
+// {
+//   int n;
+//   scanf("%i", &n);
+//   int arr[n];
+//   for (int i = 0; i < n; ++i)
+//   {
+//     scanf("%i", &arr[i]);
+//   }
+//   int *unique_arr = uniqueElements(arr, n);
+//   for (int i = 0; i < unique_elements_count; ++i)
+//   {
+//     printf("%i ", unique_arr[i]);
+//   }
+//   printf("\n");
+// }
 // int main() {
 //   int R, C;
 //   scanf("%i %i", &R, &C);
