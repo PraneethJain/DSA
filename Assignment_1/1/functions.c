@@ -44,7 +44,7 @@ char *int_to_str(int x) {
   return s;
 }
 
-int length(const char *string) {
+int str_length(const char *string) {
   if (string[0] == '\0')
     return 0;
   else {
@@ -56,8 +56,8 @@ int length(const char *string) {
 }
 
 void concat(char *destination, const char *source) {
-  int len_destination = length(destination);
-  int len_source = length(source);
+  int len_destination = str_length(destination);
+  int len_source = str_length(source);
 
   for (int i = len_destination; i <= len_destination + len_source; ++i) {
     destination[i] = source[i - len_destination];
