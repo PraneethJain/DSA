@@ -8,16 +8,12 @@ int intersection_array_size = 0;
 int min(int x, int y) { return x > y ? y : x; }
 int max(int x, int y) { return x > y ? x : y; }
 
-int *IntersectionArray(int *Arr1, int *Arr2, int lenArr1, int lenArr2)
-{
+int *IntersectionArray(int *Arr1, int *Arr2, int lenArr1, int lenArr2) {
   int size = min(lenArr1, lenArr2);
   int *res = (int *)malloc(sizeof(int) * size);
-  for (int i = 0; i < lenArr1; ++i)
-  {
-    for (int j = 0; j < lenArr2; ++j)
-    {
-      if (Arr1[i] == Arr2[j])
-      {
+  for (int i = 0; i < lenArr1; ++i) {
+    for (int j = 0; j < lenArr2; ++j) {
+      if (Arr1[i] == Arr2[j]) {
         res[intersection_array_size++] = Arr1[i];
         Arr2[j] = 0;
         break;
@@ -28,47 +24,38 @@ int *IntersectionArray(int *Arr1, int *Arr2, int lenArr1, int lenArr2)
   return res;
 }
 
-int countCharOccurences(const char *str, int length, char ch)
-{
+int countCharOccurences(const char *str, int length, char ch) {
   int res = 0;
-  for (int i = 0; i < length; ++i)
-  {
+  for (int i = 0; i < length; ++i) {
     res += str[i] == ch;
   }
 
   return res;
 }
 
-char findFirstNonRepeatingChar(const char *str, int length)
-{
-  for (int i = 0; i < length; ++i)
-  {
+char findFirstNonRepeatingChar(const char *str, int length) {
+  for (int i = 0; i < length; ++i) {
     int flag = 0;
-    for (int j = 0; j < length; ++j)
-    {
+    for (int j = 0; j < length; ++j) {
       if (i == j)
         continue;
 
-      if (str[i] == str[j])
-      {
+      if (str[i] == str[j]) {
         flag = 1;
         break;
       }
     }
-    if (flag == 0)
-    {
+    if (flag == 0) {
       return str[i];
     }
   }
   return ' ';
 }
 
-int length(const char *string)
-{
+int str_length(const char *string) {
   if (string[0] == '\0')
     return 0;
-  else
-  {
+  else {
     int res = 0;
     while (string[++res] != '\0')
       ;
@@ -76,42 +63,34 @@ int length(const char *string)
   }
 }
 
-void concat(char *destination, const char *source)
-{
-  int len_destination = length(destination);
-  int len_source = length(source);
+void concat(char *destination, const char *source) {
+  int len_destination = str_length(destination);
+  int len_source = str_length(source);
 
-  for (int i = len_destination; i <= len_destination + len_source; ++i)
-  {
+  for (int i = len_destination; i <= len_destination + len_source; ++i) {
     destination[i] = source[i - len_destination];
   }
 }
 
-char *findLongestCommonPrefix(char **strs, int numStr, int maxLen)
-{
+char *findLongestCommonPrefix(char **strs, int numStr, int maxLen) {
   char *res = (char *)malloc(sizeof(char) * maxLen);
   int flag = 0;
   char c = 0;
   char c_string[2] = {c, '\0'};
 
   int minLen = maxLen;
-  for (int i = 0; i < numStr; ++i)
-  {
-    int l = length(strs[i]);
-    if (l < minLen)
-    {
+  for (int i = 0; i < numStr; ++i) {
+    int l = str_length(strs[i]);
+    if (l < minLen) {
       minLen = l;
     }
   }
 
-  for (int i = 0; i < minLen; ++i)
-  {
+  for (int i = 0; i < minLen; ++i) {
     flag = 0;
     c = strs[0][i];
-    for (int j = 0; j < numStr; ++j)
-    {
-      if (strs[j][i] != c)
-      {
+    for (int j = 0; j < numStr; ++j) {
+      if (strs[j][i] != c) {
         flag = 1;
         break;
       }
@@ -125,28 +104,23 @@ char *findLongestCommonPrefix(char **strs, int numStr, int maxLen)
   return res;
 }
 
-int *MaxMin(int *Arr, int lenArr)
-{
+int *MaxMin(int *Arr, int lenArr) {
   int runningMax[lenArr];
   int runningMinRev[lenArr];
 
   runningMax[0] = 0;
-  for (int i = 1; i < lenArr; ++i)
-  {
+  for (int i = 1; i < lenArr; ++i) {
     runningMax[i] = max(runningMax[i - 1], Arr[i - 1]);
   }
 
   runningMinRev[lenArr - 1] = 1000001;
-  for (int i = lenArr - 2; i >= 0; --i)
-  {
+  for (int i = lenArr - 2; i >= 0; --i) {
     runningMinRev[i] = min(runningMinRev[i + 1], Arr[i + 1]);
   }
 
   int *res = (int *)malloc(sizeof(int) * lenArr);
-  for (int i = 0; i < lenArr; ++i)
-  {
-    if (Arr[i] > runningMax[i] && Arr[i] < runningMinRev[i])
-    {
+  for (int i = 0; i < lenArr; ++i) {
+    if (Arr[i] > runningMax[i] && Arr[i] < runningMinRev[i]) {
       res[max_min_array_size++] = i;
     }
   }
