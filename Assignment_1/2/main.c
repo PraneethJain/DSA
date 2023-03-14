@@ -12,9 +12,9 @@ int main() {
     if (strcmp(choice, "OPER1") == 0) {
 
       int n1, n2;
+      scanf("%i %i", &n1, &n2);
       int arr1[n1];
       int arr2[n2];
-      scanf("%i %i", &n1, &n2);
       for (int i = 0; i < n1; ++i) {
         scanf("%i", &arr1[i]);
       }
@@ -22,6 +22,11 @@ int main() {
         scanf("%i", &arr2[i]);
       }
       int *res = IntersectionArray(arr1, arr2, n1, n2);
+
+      for (int i = 0; i < intersection_array_size; ++i) {
+        printf("%i ", res[i]);
+      }
+      printf("\n");
 
     } else if (strcmp(choice, "OPER2") == 0) {
 
