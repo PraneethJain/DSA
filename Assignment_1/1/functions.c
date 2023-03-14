@@ -1,5 +1,4 @@
 #include "functions.h"
-#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -115,38 +114,3 @@ void print_matrix(int **matrix, int NumRow, int NumCol) {
   }
   printf("\n");
 }
-
-// int main()
-// {
-//   int n;
-//   scanf("%i", &n);
-//   int arr[n];
-//   for (int i = 0; i < n; ++i)
-//   {
-//     scanf("%i", &arr[i]);
-//   }
-//   int *unique_arr = uniqueElements(arr, n);
-//   for (int i = 0; i < unique_elements_count; ++i)
-//   {
-//     printf("%i ", unique_arr[i]);
-//   }
-//   printf("\n");
-// }
-// int main() {
-//   int R, C;
-//   scanf("%i %i", &R, &C);
-//   int **matrix = (int **)malloc(sizeof(int *) * R);
-//   for (int i = 0; i < R; ++i) {
-//     *(matrix + i) = (int *)malloc(sizeof(int) * C);
-//   }
-//   for (int i = 0; i < R; ++i) {
-//     for (int j = 0; j < C; ++j) {
-//       scanf("%i", &matrix[i][j]);
-//     }
-//   }
-//   printf("\n");
-//   print_matrix(matrix, R, C);
-//   int **t = transpose(matrix, R, C);
-//   print_matrix(t, C, R);
-//   return 0;
-// }

@@ -64,8 +64,6 @@ int main() {
         }
         printf("\n");
       }
-    } else {
-      // Handle bad input
     }
   }
 
