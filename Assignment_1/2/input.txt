@@ -1,4 +1,4 @@
-5
+6
 OPER5
 10
 1 4 8 7 5 9 17 11 40 10
@@ -16,3 +16,7 @@ OPER4
 flower
 flow
 flight
+OPER6
+10 2
+abcdeabcde
+bc

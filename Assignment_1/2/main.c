@@ -90,6 +90,18 @@ int main()
       }
       printf("\n");
     }
+    else if (x == '6')
+    {
+      int n, m;
+      scanf("%i %i", &n, &m);
+      char string[n];
+      scanf("%s", string);
+      char substring[m];
+      scanf("%s", substring);
+
+      char *res = removeSubstring(string, n, substring, m);
+      printf("%s\n", res);
+    }
   }
 
   return 0;

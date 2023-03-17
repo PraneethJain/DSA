@@ -156,3 +156,38 @@ int *maxMin(int *Arr, int lenArr)
   }
   return res;
 }
+
+char *removeSubstring(char *str, int strLength, const char *substr, int substrLength)
+{
+  int is_equal;
+  int cur_res_length = 0;
+  char *res = (char *)malloc(sizeof(char) * strLength);
+  for (int i = 0; i < strLength; ++i)
+  {
+    is_equal = 1;
+    if (i + substrLength > strLength)
+    {
+      is_equal = 0;
+    }
+    else
+    {
+      for (int j = 0; j < substrLength; ++j)
+      {
+        if (str[i + j] != substr[j])
+        {
+          is_equal = 0;
+          break;
+        }
+      }
+    }
+    if (!is_equal)
+    {
+      res[cur_res_length++] = str[i];
+    }
+    else
+    {
+      i += substrLength - 1;
+    }
+  }
+  return res;
+}
