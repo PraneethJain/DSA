@@ -83,7 +83,7 @@ int main()
         scanf("%i", &arr[i]);
       }
 
-      int *indices = MaxMin(arr, n);
+      int *indices = maxMin(arr, n);
       for (int i = 0; i < max_min_array_size; ++i)
       {
         printf("%i ", indices[i]);

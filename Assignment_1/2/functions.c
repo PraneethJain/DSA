@@ -91,7 +91,7 @@ void concat(char *destination, const char *source)
   }
 }
 
-char *findLongestCommonPrefix(char **strs, int numStr, int maxLen)
+char *findLongestCommonPrefix(char **str, int numStr, int maxLen)
 {
   char *res = (char *)malloc(sizeof(char) * maxLen);
   int flag = 0;
@@ -101,7 +101,7 @@ char *findLongestCommonPrefix(char **strs, int numStr, int maxLen)
   int minLen = maxLen;
   for (int i = 0; i < numStr; ++i)
   {
-    int l = str_length(strs[i]);
+    int l = str_length(str[i]);
     if (l < minLen)
     {
       minLen = l;
@@ -111,10 +111,10 @@ char *findLongestCommonPrefix(char **strs, int numStr, int maxLen)
   for (int i = 0; i < minLen; ++i)
   {
     flag = 0;
-    c = strs[0][i];
+    c = str[0][i];
     for (int j = 0; j < numStr; ++j)
     {
-      if (strs[j][i] != c)
+      if (str[j][i] != c)
       {
         flag = 1;
         break;
@@ -129,7 +129,7 @@ char *findLongestCommonPrefix(char **strs, int numStr, int maxLen)
   return res;
 }
 
-int *MaxMin(int *Arr, int lenArr)
+int *maxMin(int *Arr, int lenArr)
 {
   int runningMax[lenArr];
   int runningMinRev[lenArr];
