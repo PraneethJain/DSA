@@ -1,5 +1,5 @@
-#ifndef __FUNCTIONS
-#define __FUNCTIONS
+#ifndef __POINTERS
+#define __POINTERS
 
 extern int unique_elements_count;
 
