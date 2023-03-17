@@ -31,6 +31,7 @@ int main()
       scanf("%s", s);
       char *compressedString = compressString(s, n);
       printf("%s\n", compressedString);
+      free(compressedString);
     }
     else if (x == '3')
     {
@@ -48,6 +49,8 @@ int main()
         printf("%i ", unique_arr[i]);
       }
       printf("\n");
+      free(unique_arr);
+      unique_elements_count = 0;
     }
     else if (x == '4')
     {
@@ -77,8 +80,19 @@ int main()
         }
         printf("\n");
       }
+
+      for (int i = 0; i < R; ++i)
+      {
+        free(matrix[i]);
+      }
+      free(matrix);
+
+      for (int i = 0; i < C; ++i)
+      {
+        free(transposed_matrix[i]);
+      }
+      free(transposed_matrix);
     }
   }
-
   return 0;
 }

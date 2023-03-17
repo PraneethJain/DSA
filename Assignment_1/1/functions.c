@@ -11,28 +11,6 @@ void swap(char *x, char *y)
   *y = temp;
 }
 
-void reverseString(char *str, int length)
-{
-  for (int i = 0; i < length / 2; ++i)
-  {
-    swap(&str[i], &str[length - i - 1]);
-  }
-}
-
-int *uniqueElements(int *arr, int length)
-{
-  int map[1000001] = {0};
-  int *res = (int *)malloc(sizeof(int) * length);
-  for (int i = 0; i < length; ++i)
-  {
-    map[arr[i]]++;
-    if (map[arr[i]] == 1)
-      res[unique_elements_count++] = arr[i];
-  }
-
-  return res;
-}
-
 int ceil_log_10(int x)
 {
   int res = 1;
@@ -52,37 +30,50 @@ char *int_to_str(int x)
   return s;
 }
 
-int str_length(const char *string)
+void reverseString(char *str, int length)
 {
-  if (string[0] == '\0')
-    return 0;
-  else
+  for (int i = 0; i < length / 2; ++i)
   {
-    int res = 0;
-    while (string[++res] != '\0')
-      ;
-    return res;
+    swap(&str[i], &str[length - i - 1]);
   }
 }
 
-void concat(char *destination, const char *source)
+int *uniqueElements(int *arr, int length)
 {
-  int len_destination = str_length(destination);
-  int len_source = str_length(source);
-
-  for (int i = len_destination; i <= len_destination + len_source; ++i)
+  int max = arr[0];
+  for (int i = 1; i < length; ++i)
   {
-    destination[i] = source[i - len_destination];
+    if (arr[i] > max)
+    {
+      max = arr[i];
+    }
   }
+  max++;
+  int map[max];
+  for (int i = 0; i < max; ++i)
+  {
+    map[i] = 0;
+  }
+  int *res = (int *)malloc(sizeof(int) * length);
+  for (int i = 0; i < length; ++i)
+  {
+    map[arr[i]]++;
+    if (map[arr[i]] == 1)
+      res[unique_elements_count++] = arr[i];
+  }
+
+  return res;
 }
 
 char *compressString(char *str, int length)
 {
 
-  char prev[2] = {str[0], '\0'};
+  char prev = str[0];
   int cur_count = 1;
   char cur;
-  char *res = (char *)malloc(sizeof(char) * (2 * length + 1));
+  char *num_str;
+  char *compressed_string = (char *)malloc(sizeof(char) * (2 * length + 1));
+  int compressed_string_length = 0;
   for (int i = 0; i < length; ++i)
   {
     cur = str[i];
@@ -90,23 +81,34 @@ char *compressString(char *str, int length)
     {
       continue;
     }
-    if (cur != prev[0])
+    if (cur != prev)
     {
-      concat(res, prev);
-      concat(res, int_to_str(cur_count));
+      compressed_string[compressed_string_length++] = prev;
+      num_str = int_to_str(cur_count);
+      for (int i = 0; i < ceil_log_10(cur_count) - 1; ++i)
+      {
+        compressed_string[compressed_string_length++] = num_str[i];
+      }
+      free(num_str);
       cur_count = 1;
     }
     else
     {
       cur_count++;
     }
-    prev[0] = cur;
+    prev = cur;
   }
-  char cur_string[2] = {cur, '\0'};
-  concat(res, cur_string);
-  concat(res, int_to_str(cur_count));
 
-  return res;
+  compressed_string[compressed_string_length++] = cur;
+  num_str = int_to_str(cur_count);
+  for (int i = 0; i < ceil_log_10(cur_count) - 1; ++i)
+  {
+    compressed_string[compressed_string_length++] = num_str[i];
+  }
+  free(num_str);
+  compressed_string[compressed_string_length++] = '\0';
+
+  return compressed_string;
 }
 
 int **transpose(int **matrix, int NumRow, int NumCol)
