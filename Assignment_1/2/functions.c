@@ -69,7 +69,7 @@ char findFirstNonRepeatingChar(const char *str, int length)
       return str[i];
     }
   }
-  return ' ';
+  return -1;
 }
 
 int str_length(const char *string)

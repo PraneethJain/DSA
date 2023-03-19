@@ -49,7 +49,16 @@ int main()
 
       char str[10000];
       scanf("%s", str);
-      printf("%c\n", findFirstNonRepeatingChar(str, str_length(str)));
+      char res = findFirstNonRepeatingChar(str, str_length(str));
+      if (res == -1)
+      {
+        printf("-1");
+      }
+      else
+      {
+        printf("%c", res);
+      }
+      printf("\n");
     }
     else if (x == '4')
     {
@@ -62,15 +71,22 @@ int main()
         *(strings + i) =
             (char *)malloc(sizeof(char) * 100); // Max size of string is 100
       }
-
+      int temp;
       for (int i = 0; i < n; ++i)
       {
-        scanf("%s", strings[i]);
+        scanf("%i %s", &temp, strings[i]);
       }
 
       char *prefix = findLongestCommonPrefix(strings, n, 100);
-
-      printf("%s\n", prefix);
+      if (str_length(prefix) == 0)
+      {
+        printf("-1");
+      }
+      else
+      {
+        printf("%s", prefix);
+      }
+      printf("\n");
     }
     else if (x == '5')
     {
@@ -84,9 +100,16 @@ int main()
       }
 
       int *indices = maxMin(arr, n);
-      for (int i = 0; i < max_min_array_size; ++i)
+      if (max_min_array_size == 0)
       {
-        printf("%i ", indices[i]);
+        printf("-1");
+      }
+      else
+      {
+        for (int i = 0; i < max_min_array_size; ++i)
+        {
+          printf("%i ", indices[i]);
+        }
       }
       printf("\n");
     }
@@ -100,7 +123,15 @@ int main()
       scanf("%s", substring);
 
       char *res = removeSubstring(string, n, substring, m);
-      printf("%s\n", res);
+      if (str_length(res) == 0)
+      {
+        printf("-1");
+      }
+      else
+      {
+        printf("%s", res);
+      }
+      printf("\n");
     }
   }
 

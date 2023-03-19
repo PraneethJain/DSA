@@ -13,9 +13,9 @@ OPER3
 lleetcode
 OPER4
 3
-flower
-flow
-flight
+6 flower
+4 flow
+6 flight
 OPER6
 10 2
 abcdeabcde
