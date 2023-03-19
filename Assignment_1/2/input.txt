@@ -7,9 +7,11 @@ OPER1
 1 2 3 4 5 6
 7 9 1 4 8 2 3
 OPER2
+10
 helloworld
 l
 OPER3
+9
 lleetcode
 OPER4
 3
