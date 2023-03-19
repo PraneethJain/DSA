@@ -10,26 +10,31 @@ int max(int x, int y) { return x > y ? x : y; }
 
 int *intersectionArray(int *Arr1, int *Arr2, int lenArr1, int lenArr2)
 {
-  int res[lenArr1];
+  int f1[10001] = {0};
   for (int i = 0; i < lenArr1; ++i)
   {
-    for (int j = 0; j < lenArr2; ++j)
-    {
-      if (Arr1[i] == Arr2[j])
-      {
-        res[intersection_array_size++] = Arr1[i];
-        Arr2[j] = 0;
-        break;
-      }
-    }
+    ++f1[Arr1[i]];
+  }
+  int f2[10001] = {0};
+  for (int i = 0; i < lenArr2; ++i)
+  {
+    ++f2[Arr2[i]];
   }
 
-  int *result = (int *)malloc(sizeof(int) * intersection_array_size);
+  int res[lenArr1];
+  for (int i = 0; i < 10001; ++i)
+  {
+    if (f1[i] > 0 && f2[i] > 0)
+    {
+      res[intersection_array_size++] = i;
+    }
+  }
+  int *intersection_array = (int *)malloc(sizeof(int) * intersection_array_size);
   for (int i = 0; i < intersection_array_size; ++i)
   {
-    result[i] = res[i];
+    intersection_array[i] = res[i];
   }
-  return result;
+  return intersection_array;
 }
 
 int countCharOccurences(const char *str, int length, char ch)
