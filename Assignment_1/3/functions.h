@@ -5,10 +5,9 @@ typedef struct Node
 {
     int Element;
     struct Node *NextNode;
-    struct Node *PrevNode;
 } Node;
 
-typedef Node *PtrNode;
+typedef struct Node *PtrNode;
 
 void Insert(PtrNode Head, int num);
 PtrNode Find(PtrNode Head, int num);

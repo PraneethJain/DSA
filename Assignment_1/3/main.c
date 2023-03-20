@@ -4,15 +4,14 @@
 
 int main()
 {
-    int T;
-    scanf("%i", &T);
-
-    char choice[10];
-    int num;
     PtrNode Head = (PtrNode)malloc(sizeof(Node));
     Head->Element = 0;
-    Head->NextNode = NULL;
-    Head->PrevNode = NULL;
+    Head->NextNode = Head;
+
+    int T;
+    scanf("%i", &T);
+    char choice[10];
+    int num;
     for (int i = 0; i < T; ++i)
     {
         scanf("%s", choice);
