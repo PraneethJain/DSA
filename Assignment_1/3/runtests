@@ -1,5 +1,0 @@
-gcc main.c functions.c
-./a.out < input.txt > current_output.txt
-cmp --silent current_output.txt output.txt && echo 'SUCCESS: Test Passed' || echo 'ERROR: Test Failed'
-rm current_output.txt
-rm a.out
