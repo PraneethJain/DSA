@@ -16,9 +16,145 @@ typedef struct row
   struct row *next;
 } row;
 
+typedef struct cell
+{
+  int col;
+  int row;
+  int val;
+  struct cell *next;
+} cell;
+
+cell *read_other(int num_elements);
+int compare_other(cell *c1, cell *c2);
+cell *add_other(cell *head1, cell *head2);
+cell *print_other(cell *head);
+cell *get_length_other(cell *head);
+
 row *read_matrix(int num_elements);
 void print_matrix(row *head);
 row *transpose(row *head);
+
+cell *read_other(int num_elements)
+{
+  cell *head = (cell *)malloc(sizeof(cell));
+  cell *prev = head;
+  int x, y, val;
+  for (int i = 0; i < num_elements; ++i)
+  {
+    cell *cur = (cell *)malloc(sizeof(cell));
+    scanf("%i %i %i", &x, &y, &val);
+    cur->row = x;
+    cur->col = y;
+    cur->val = val;
+    cur->next = NULL;
+
+    prev->next = cur;
+    prev = cur;
+  }
+
+  return head;
+}
+
+int compare_other(cell *c1, cell *c2)
+{
+  if (c1->row > c2->row)
+  {
+    return 1;
+  }
+  else if (c1->row < c2->row)
+  {
+    return -1;
+  }
+  else
+  {
+    if (c1->col > c2->col)
+    {
+      return 1;
+    }
+    else if (c1->col < c2->col)
+    {
+      return -1;
+    }
+    else
+    {
+      return 0;
+    }
+  }
+}
+
+cell *add_other(cell *head1, cell *head2)
+{
+  cell *res_head = (cell *)malloc(sizeof(cell));
+  cell *prev = res_head;
+  cell *node1 = head1->next;
+  cell *node2 = head2->next;
+  while (node1 != NULL && node2 != NULL)
+  {
+    int x = compare_other(node1, node2);
+    cell *cur = (cell *)malloc(sizeof(cell));
+    cur->next = NULL;
+    if (x == 1)
+    {
+      cur->row = node2->row;
+      cur->col = node2->col;
+      cur->val = node2->val;
+      node2 = node2->next;
+    }
+    else if (x == -1)
+    {
+      cur->row = node1->row;
+      cur->col = node1->col;
+      cur->val = node1->val;
+      node1 = node1->next;
+    }
+    else
+    {
+      cur->row = node1->row;
+      cur->col = node1->col;
+      cur->val = node1->val + node2->val;
+      node1 = node1->next;
+      node2 = node2->next;
+    }
+    if (cur->val != 0)
+    {
+      prev->next = cur;
+      prev = cur;
+    }
+  }
+
+  if (node1 == NULL)
+  {
+    prev->next = node2;
+  }
+  else if (node2 == NULL)
+  {
+    prev->next = node1;
+  }
+
+  return res_head;
+}
+
+void print_other(cell *head)
+{
+  cell *cur = head->next;
+  while (cur != NULL)
+  {
+    printf("%i %i %i\n", cur->row, cur->col, cur->val);
+    cur = cur->next;
+  }
+}
+
+int get_length_other(cell *head)
+{
+  cell *cur = head->next;
+  int i = 0;
+  while (cur != NULL)
+  {
+    ++i;
+    cur = cur->next;
+  }
+  return i;
+}
 
 row *read_matrix(int num_elements)
 {
@@ -30,7 +166,7 @@ row *read_matrix(int num_elements)
   node *prev_node;
   row *cur_row;
   int i, j, val;
-  for (int k = 0;  k < num_elements; ++k)
+  for (int k = 0; k < num_elements; ++k)
   {
     scanf("%i %i %i", &i, &j, &val);
     node *cur_node = (node *)malloc(sizeof(node));
@@ -81,7 +217,7 @@ void print_matrix(row *head)
       cur_node = cur_node->next;
     }
     cur_row = cur_row->next;
-  }  
+  }
 }
 
 void insert(row *head, node *to_insert)
@@ -158,13 +294,13 @@ row *transpose(row *head)
     }
     cur_row = cur_row->next;
   }
-  
+
   return res_head;
 }
 
 int main()
 {
-  
+
   char opt[100];
   scanf("%s", opt);
   char x = opt[0];
@@ -179,12 +315,17 @@ int main()
   }
   else if (x == 'A')
   {
-    
+    int n, m, k1, k2;
+    scanf("%i %i %i %i", &n, &m, &k1, &k2);
+    cell *head1 = read_other(k1);
+    cell *head2 = read_other(k2);
+    cell *res = add_other(head1, head2);
+    printf("%i\n", get_length_other(res));
+    print_other(res);
   }
   else if (x == 'M')
   {
-    
   }
-  
+
   return 0;
 }
