@@ -27,8 +27,8 @@ typedef struct cell
 cell *read_other(int num_elements);
 int compare_other(cell *c1, cell *c2);
 cell *add_other(cell *head1, cell *head2);
-cell *print_other(cell *head);
-cell *get_length_other(cell *head);
+void print_other(cell *head);
+int get_length_other(cell *head);
 
 row *read_matrix(int num_elements);
 void print_matrix(row *head);
