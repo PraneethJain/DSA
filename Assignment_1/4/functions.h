@@ -26,15 +26,24 @@ typedef struct cell
   struct cell *next;
 } cell;
 
-cell *read_other(int num_elements);
-int compare_other(cell *c1, cell *c2);
-cell *add_other(cell *head1, cell *head2);
-void print_other(cell *head);
-int get_length_other(cell *head);
+int smaller(cell *x, cell *y);
+struct cell *merge(struct cell *cell1, struct cell *cell2);
+void split(struct cell *source, struct cell **front, struct cell **back);
+void merge_sort(struct cell **head);
+
+cell *add_read(int num_elements);
+int add_compare(cell *head1, cell *head2);
+void add_print(cell *head);
+cell *add(cell *head1, cell *head2);
+int get_length(cell *head);
+cell *transpose_read(int num_elements);
+void transpose(cell *head);
+void print_cell(cell *head);
 
 row *read_matrix(int num_elements);
 void print_matrix(row *head);
-row *transpose(row *head);
-row *multiply(row *head1, row *head2);
+
+row *multiply(row *head1, cell *head2);
+row *convert(cell *inp);
 
 #endif
