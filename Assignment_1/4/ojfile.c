@@ -312,6 +312,7 @@ row *multiply(row *head1, row *head2)
   row *rowa = head1->next;
   while (rowa != NULL)
   {
+    int flag = 1;
     row *res_cur_row = (row *)malloc(sizeof(row));
     res_cur_row->first = NULL;
     res_cur_row->next = NULL;
@@ -342,6 +343,7 @@ row *multiply(row *head1, row *head2)
       }
       if (value != 0)
       {
+        flag = 0;
         product_size++;
         node *res_cur_node = (node *)malloc(sizeof(node));
         res_cur_node->row_num = rowa->row_num;
@@ -360,8 +362,11 @@ row *multiply(row *head1, row *head2)
       }
       rowb = rowb->next;
     }
-    res_prev_row->next = res_cur_row;
-    res_prev_row = res_cur_row;
+    if (!flag)
+    {
+      res_prev_row->next = res_cur_row;
+      res_prev_row = res_cur_row;
+    }
     rowa = rowa->next;
   }
 
