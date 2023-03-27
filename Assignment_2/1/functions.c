@@ -83,8 +83,8 @@ int is_palindrome(char *string, int length)
     if (pop(pile) != string[cur])
     {
       palindrome = 0;
+      break;
     }
-    break;
   }
 
   return palindrome;
