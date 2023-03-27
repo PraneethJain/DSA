@@ -12,40 +12,26 @@ int main()
   {
     char string[1024];
     scanf("%s", string);
-    stack *pile = (stack *)malloc(sizeof(stack));
     int length = string_length(string);
-
-    int is_balanced = 1;
-    for (int i = 0; i < length; ++i)
+    int balanced = is_balanced(string, length);
+    int palindrome = is_palindrome(string, length);
+    if (balanced && palindrome)
     {
-      switch (string[i])
-      {
-        case '(':
-        case '[':
-        case '{':
-          push(pile, string[i]);
-          break;
-        case ')':
-        case ']':
-        case '}':
-          is_balanced = (!is_empty(pile)) && (pop(pile) == match(string[i]));
-          break;
-        default:
-          break;
-      }
-      if (!is_balanced)
-      {
-        break;
-      }
+      printf("Balanced and Palindromic");
     }
-    if (is_empty(pile) && is_balanced)
+    else if (balanced)
     {
-      printf("Balanced\n");
+      printf("Balanced");
+    }
+    else if (palindrome)
+    {
+      printf("Palindromic");
     }
     else
     {
-      printf("-1\n");
+      printf("-1");
     }
+    printf("\n");
   }
 
   
