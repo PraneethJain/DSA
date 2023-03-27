@@ -4,7 +4,7 @@
 
 void push(stack *pile, char c)
 {
-  pile->s[pile->top++] = c;  
+  pile->s[pile->top++] = c;
 }
 
 char pop(stack *pile)
@@ -14,7 +14,7 @@ char pop(stack *pile)
 
 char peek(const stack *pile)
 {
-  return pile->s[pile->top-1];
+  return pile->s[pile->top - 1];
 }
 
 int is_empty(const stack *pile)

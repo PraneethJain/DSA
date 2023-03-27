@@ -7,7 +7,7 @@ typedef struct stack
   int top;
 } stack;
 
-void push(stack *pile,char c);
+void push(stack *pile, char c);
 char pop(stack *pile);
 char peek(const stack *pile);
 int is_empty(const stack *pile);

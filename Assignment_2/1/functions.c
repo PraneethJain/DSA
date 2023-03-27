@@ -18,12 +18,12 @@ char match(char c)
 {
   switch (c)
   {
-    case ')':
-      return '(';
-    case ']':
-      return '[';
-    case '}':
-      return '{';
+  case ')':
+    return '(';
+  case ']':
+    return '[';
+  case '}':
+    return '{';
   }
   return -1;
 }
@@ -38,19 +38,19 @@ int is_balanced(char *string, int length)
   {
     switch (string[i])
     {
-      case '(':
-      case '[':
-      case '{':
-        exists = 1;
-        push(pile, string[i]);
-        break;
-      case ')':
-      case ']':
-      case '}':
-        balanced = !is_empty(pile) && (pop(pile) == match(string[i]));
-        break;
-      default:
-        break;
+    case '(':
+    case '[':
+    case '{':
+      exists = 1;
+      push(pile, string[i]);
+      break;
+    case ')':
+    case ']':
+    case '}':
+      balanced = !is_empty(pile) && (pop(pile) == match(string[i]));
+      break;
+    default:
+      break;
     }
     if (!balanced)
     {
@@ -65,7 +65,7 @@ int is_palindrome(char *string, int length)
 {
   if (length == 0 || length == 1)
     return 1;
-  
+
   stack *pile = (stack *)malloc(sizeof(stack));
 
   int palindrome = 1;
@@ -73,7 +73,7 @@ int is_palindrome(char *string, int length)
   int cur;
   for (cur = 0; cur < middle; ++cur)
   {
-    push(pile, string[cur]);    
+    push(pile, string[cur]);
   }
   if (length % 2)
     ++cur;
