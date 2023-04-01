@@ -8,7 +8,7 @@ typedef struct node
   struct node *prev;
 } node;
 
-typedef struct node* Queue;
+typedef struct node *Queue;
 
 void Push(Queue head, int val);
 int Pop(Queue head);
@@ -23,7 +23,7 @@ void Push(Queue head, int val)
 {
   node *new = (node *)malloc(sizeof(node));
   new->val = val;
-  
+
   node *old_last = head->prev;
   head->prev = new;
   new->next = head;
@@ -40,7 +40,6 @@ int Pop(Queue head)
   head->next = old_first->next;
   old_first->next->prev = head;
   int val = old_first->val;
-  // free(old_first);
   return val;
 }
 
@@ -64,7 +63,6 @@ int popRear(Queue head)
   old_last->prev->next = head;
   head->prev = old_last->prev;
   int val = old_last->val;
-  // free(old_last);
   return val;
 }
 
@@ -122,17 +120,8 @@ int findElem(Queue head, int pos)
 
 void removeKElems(Queue head, int k)
 {
-  node *cur = head->next;
-  node *temp = NULL;
   for (int i = 0; i < k; ++i)
-  {
-    temp = cur->next;
-    // free(cur);
-    cur = temp;
-  }
-
-  head->next = temp;
-  temp->prev = head;
+    Pop(head);
 }
 
 int main()
@@ -144,7 +133,7 @@ int main()
 
   int T;
   scanf("%i", &T);
-  char *s = (char *)malloc(sizeof(char)*64);
+  char *s = (char *)malloc(sizeof(char) * 64);
   for (int i = 0; i < T; ++i)
   {
     scanf("%s", s);
@@ -189,12 +178,7 @@ int main()
       scanf("%i", &n);
       removeKElems(head, n);
     }
-
-    // printf("Forward: ");
-    // Print(head);
-    // printf("Reverse: ");
-    // PrintReverse(head);
   }
-  
+
   return 0;
 }

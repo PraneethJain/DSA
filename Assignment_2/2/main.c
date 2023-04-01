@@ -11,7 +11,7 @@ int main()
 
   int T;
   scanf("%i", &T);
-  char s[64];
+  char *s = (char *)malloc(sizeof(char) * 64);
   for (int i = 0; i < T; ++i)
   {
     scanf("%s", s);
@@ -56,11 +56,7 @@ int main()
       scanf("%i", &n);
       removeKElems(head, n);
     }
-    else
-    {
-      printf("Invalid Operation!\n");
-    }
   }
-  
+
   return 0;
 }
