@@ -3,7 +3,7 @@
 
 typedef struct stack
 {
-  char s[1024];
+  char s[10024];
   int top;
 } stack;
 

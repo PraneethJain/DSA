@@ -3,7 +3,7 @@
 
 typedef struct stack
 {
-  char s[1024];
+  char s[10024];
   int top;
 } stack;
 
@@ -121,9 +121,9 @@ int main()
   int T;
   scanf("%i", &T);
 
+  char *string = (char *)malloc(sizeof(char) * 10024);
   for (int i = 0; i < T; ++i)
   {
-    char string[1024];
     scanf("%s", string);
     int length = string_length(string);
     int balanced = is_balanced(string, length);
