@@ -78,4 +78,5 @@ void zig_zag_order(tree T)
 
     flag = !flag;
   }
+  printf("\n");
 }
