@@ -64,29 +64,18 @@ void zig_zag_order(tree T)
       to_print[i] = cur->val;
 
       if (cur->right != NULL)
-      {
         push(head, cur->right);
-      }
       if (cur->left != NULL)
-      {
         push(head, cur->left);
-      }
     }
 
     if (flag)
-    {
       for (int j = 0; j < len; ++j)
-      {
         printf("%i ", to_print[j]);
-      }
-    }
     else
-    {
       for (int j = len - 1; j >= 0; --j)
-      {
         printf("%i ", to_print[j]);
-      }
-    }
+
     flag = !flag;
   }
 }
