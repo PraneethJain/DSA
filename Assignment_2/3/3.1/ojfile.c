@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#ifndef __BST_H
+#define __BST_H
+
 typedef struct node
 {
   int val;
@@ -8,13 +11,126 @@ typedef struct node
   struct node *right;
 } node;
 
-typedef node * tree;
+typedef node *tree;
 
 node *create_node(int val);
 node *insert(tree T, int val);
 
 void pre_order(tree T);
 void zig_zag_order(tree T);
+
+#endif
+
+#ifndef __DEQUE_H
+#define __DEQUE_H
+#include "bst.h"
+
+typedef struct deq_node
+{
+  node *n;
+  struct deq_node *next;
+  struct deq_node *prev;
+  int length;
+} deq_node;
+
+typedef deq_node *deq;
+
+void push(deq head, node *n);
+void push_start(deq head, node *n);
+node *pop(deq head);
+node *pop_rear(deq head);
+void print(deq head);
+void print_reverse(deq head);
+int is_empty(deq head);
+
+#endif
+
+void push(deq head, node *n)
+{
+  deq_node *new = (deq_node *)malloc(sizeof(node));
+  new->n = n;
+
+  deq_node *old_last = head->prev;
+  head->prev = new;
+  new->next = head;
+  new->prev = old_last;
+  old_last->next = new;
+  head->length++;
+}
+
+void push_start(deq head, node *n)
+{
+  deq_node *new = (deq_node *)malloc(sizeof(deq_node));
+  new->n = n;
+  deq_node *old_first = head->next;
+  new->prev = head;
+  new->next = old_first;
+  old_first->prev = new;
+  head->next = new;
+  head->length++;
+}
+
+node *pop(deq head)
+{
+  deq_node *old_first = head->next;
+  head->next = old_first->next;
+  old_first->next->prev = head;
+  node *n = old_first->n;
+  head->length--;
+  return n;
+}
+
+node *pop_rear(deq head)
+{
+
+  deq_node *old_last = head->prev;
+  old_last->prev->next = head;
+  head->prev = old_last->prev;
+  node *n = old_last->n;
+  head->length--;
+  return n;
+}
+
+void print(deq head)
+{
+  if (head->next == head)
+  {
+    printf("-1");
+  }
+  else
+  {
+    deq cur = head->next;
+    while (cur != head)
+    {
+      printf("%i ", cur->n->val);
+      cur = cur->next;
+    }
+  }
+  printf("\n");
+}
+
+void print_reverse(deq head)
+{
+  if (head->prev == head)
+  {
+    printf("-1");
+  }
+  else
+  {
+    deq cur = head->prev;
+    while (cur != head)
+    {
+      printf("%i ", cur->n->val);
+      cur = cur->prev;
+    }
+  }
+  printf("\n");
+}
+
+int is_empty(deq head)
+{
+  return (head->length == 0);
+}
 
 node *create_node(int val)
 {
@@ -30,7 +146,7 @@ node *insert(tree T, int val)
 {
   if (T == NULL)
     return create_node(val);
-  
+
   if (val < T->val)
   {
     T->left = insert(T->left, val);
@@ -55,22 +171,61 @@ void pre_order(tree T)
 
 void zig_zag_order(tree T)
 {
+  if (T == NULL)
+    return;
+
+  deq head = (deq)malloc(sizeof(deq_node));
+  head->n = NULL;
+  head->next = head;
+  head->prev = head;
+  head->length = 0;
+
+  int flag = 0;
+  node *cur;
+  push(head, T);
+  while (!is_empty(head))
+  {
+    int len = head->length;
+    int to_print[len];
+    for (int i = 0; i < len; ++i)
+    {
+      cur = pop(head);
+      to_print[i] = cur->val;
+
+      if (cur->right != NULL)
+        push(head, cur->right);
+      if (cur->left != NULL)
+        push(head, cur->left);
+    }
+
+    if (flag)
+      for (int j = 0; j < len; ++j)
+        printf("%i ", to_print[j]);
+    else
+      for (int j = len - 1; j >= 0; --j)
+        printf("%i ", to_print[j]);
+
+    flag = !flag;
+  }
+  printf("\n");
 }
 
 int main()
 {
-  tree T = NULL;
-  T = insert(T, 20);
-  T = insert(T, 10);
-  T = insert(T, 25);
-  T = insert(T, 5);
-  T = insert(T, 15);
-  T = insert(T, 23);
-  T = insert(T, 30);
-  pre_order(T);
-  printf("\n");
-  zig_zag_order(T);
-  printf("\n");
-
+  int T;
+  scanf("%i", &T);
+  for (int i = 0; i < T; ++i)
+  {
+    tree t = NULL;
+    int N;
+    scanf("%i", &N);
+    int val;
+    for (int j = 0; j < N; ++j)
+    {
+      scanf("%i", &val);
+      t = insert(t, val);
+    }
+    zig_zag_order(t);
+  }
   return 0;
 }
