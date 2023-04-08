@@ -30,6 +30,19 @@ node *insert(tree T, int val)
   return T;
 }
 
+node *make_tree(int n, int *values, int index)
+{
+
+  if (index >= n)
+    return NULL;
+
+  tree T = create_node(values[index]);
+  T->left = make_tree(n, values, 2 * index + 1);
+  T->right = make_tree(n, values, 2 * index + 2);
+
+  return T;
+}
+
 void pre_order(tree T)
 {
   if (T == NULL)

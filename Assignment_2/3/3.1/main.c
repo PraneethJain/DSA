@@ -9,16 +9,15 @@ int main()
   scanf("%i", &T);
   for (int i = 0; i < T; ++i)
   {
-    tree t = NULL;
     int N;
     scanf("%i", &N);
-    int val;
+    int values[N];
     for (int j = 0; j < N; ++j)
-    {
-      scanf("%i", &val);
-      t = insert(t, val);
-    }
+      scanf("%i", &values[j]);
+
+    tree t = make_tree(N, values, 0);
     zig_zag_order(t);
+    printf("\n");
   }
   return 0;
 }

@@ -12,6 +12,7 @@ typedef node *tree;
 
 node *create_node(int val);
 node *insert(tree T, int val);
+node *make_tree(int n, int *values, int index);
 
 void pre_order(tree T);
 void in_order(tree T);
