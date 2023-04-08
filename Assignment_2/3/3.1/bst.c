@@ -40,6 +40,16 @@ void pre_order(tree T)
   pre_order(T->right);
 }
 
+void in_order(tree T)
+{
+  if (T == NULL)
+    return;
+
+  in_order(T->left);
+  printf("%i ", T->val);
+  in_order(T->right);
+}
+
 void zig_zag_order(tree T)
 {
   if (T == NULL)

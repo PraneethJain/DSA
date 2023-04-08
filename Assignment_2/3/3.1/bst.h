@@ -8,13 +8,13 @@ typedef struct node
   struct node *right;
 } node;
 
-typedef node * tree;
+typedef node *tree;
 
 node *create_node(int val);
 node *insert(tree T, int val);
 
 void pre_order(tree T);
+void in_order(tree T);
 void zig_zag_order(tree T);
 
 #endif
-
