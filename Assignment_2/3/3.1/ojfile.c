@@ -24,7 +24,6 @@ void zig_zag_order(tree T);
 
 #ifndef __DEQUE_H
 #define __DEQUE_H
-#include "bst.h"
 
 typedef struct deq_node
 {
@@ -169,7 +168,7 @@ node *make_tree(int n, int *values, int index)
   tree T = create_node(values[index]);
   T->left = make_tree(n, values, 2 * index + 1);
   T->right = make_tree(n, values, 2 * index + 2);
-  
+
   return T;
 }
 
@@ -240,4 +239,6 @@ int main()
     zig_zag_order(t);
     printf("\n");
   }
+
+  return 0;
 }
