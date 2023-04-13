@@ -42,6 +42,7 @@ node *pop_rear(deq head);
 void print(deq head);
 void print_reverse(deq head);
 int is_empty(deq head);
+void free_deq(deq head);
 
 #endif
 
@@ -76,6 +77,7 @@ node *pop(deq head)
   head->next = old_first->next;
   old_first->next->prev = head;
   node *n = old_first->n;
+  free(old_first);
   head->length--;
   return n;
 }
@@ -130,6 +132,18 @@ void print_reverse(deq head)
 int is_empty(deq head)
 {
   return (head->length == 0);
+}
+
+void free_deq(deq head)
+{
+  deq cur = head->next;
+  while (cur != head)
+  {
+    deq temp = cur->next;
+    free(cur);
+    cur = temp;
+  }
+  free(head);
 }
 
 node *create_node(int val)
@@ -221,6 +235,17 @@ void zig_zag_order(tree T)
     flag = !flag;
   }
   printf("\n");
+  free_deq(head);
+}
+
+void free_tree(tree T)
+{
+  if (T == NULL)
+      return;
+
+  free_tree(T->left);
+  free_tree(T->right);
+  free(T);
 }
 
 int main()
@@ -237,7 +262,7 @@ int main()
 
     tree t = make_tree(N, values, 0);
     zig_zag_order(t);
-    printf("\n");
+    free_tree(t);
   }
 
   return 0;
