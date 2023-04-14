@@ -124,7 +124,7 @@ void free_deq(deq head)
   deq cur = head->next;
   while (cur != head)
   {
-    deq temp = head->next; 
+    deq temp = head->next;
     free(cur);
     cur = temp;
   }
@@ -171,7 +171,7 @@ void level_order(tree T)
 void free_tree(tree T)
 {
   if (T == NULL)
-      return;
+    return;
 
   free_tree(T->left);
   free_tree(T->right);
@@ -188,27 +188,19 @@ tree get_tree(int *inorder, int *preorder, int start, int end)
   {
     tree T = create_node(preorder[pre_index]);
 
-    int cur = -1;
     for (int i = start; i <= end; ++i)
-    {
       if (inorder[i] == preorder[pre_index])
       {
-        cur = i;
-        break;
-      }
-    }
-    ++pre_index;
-    T->left = get_tree(inorder, preorder, start, cur - 1);
-    T->right = get_tree(inorder, preorder, cur + 1, end);
+        ++pre_index;
+        T->left = get_tree(inorder, preorder, start, i - 1);
+        T->right = get_tree(inorder, preorder, i + 1, end);
 
-    return T;
+        return T;
+      }
   }
   else
-  {
     return create_node(preorder[pre_index++]);
-  }
-
-  }
+}
 
 int main()
 {
@@ -217,9 +209,10 @@ int main()
   for (int i = 0; i < T; ++i)
   {
     int N;
+    pre_index = 0;
     scanf("%i", &N);
-    int *inorder = (int *)malloc(sizeof(int)*N);
-    int *preorder = (int *)malloc(sizeof(int)*N);
+    int *inorder = (int *)malloc(sizeof(int) * N);
+    int *preorder = (int *)malloc(sizeof(int) * N);
     for (int j = 0; j < N; ++j)
       scanf("%i", &inorder[j]);
 
