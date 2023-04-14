@@ -1,9 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#ifndef __BST_H
-#define __BST_H
-
 typedef struct node
 {
   int val;
@@ -15,15 +12,6 @@ typedef node *tree;
 
 node *create_node(int val);
 node *insert(tree T, int val);
-node *make_tree(int n, int *values, int index);
-
-void pre_order(tree T);
-void zig_zag_order(tree T);
-
-#endif
-
-#ifndef __DEQUE_H
-#define __DEQUE_H
 
 typedef struct deq_node
 {
@@ -42,8 +30,6 @@ node *pop_rear(deq head);
 void print(deq head);
 void print_reverse(deq head);
 int is_empty(deq head);
-
-#endif
 
 void push(deq head, node *n)
 {
@@ -76,6 +62,7 @@ node *pop(deq head)
   head->next = old_first->next;
   old_first->next->prev = head;
   node *n = old_first->n;
+  free(old_first);
   head->length--;
   return n;
 }
@@ -132,6 +119,18 @@ int is_empty(deq head)
   return (head->length == 0);
 }
 
+void free_deq(deq head)
+{
+  deq cur = head->next;
+  while (cur != head)
+  {
+    deq temp = head->next; 
+    free(cur);
+    cur = temp;
+  }
+  free(head);
+}
+
 node *create_node(int val)
 {
   node *new = (node *)malloc(sizeof(node));
@@ -140,36 +139,6 @@ node *create_node(int val)
   new->val = val;
 
   return new;
-}
-
-node *insert(tree T, int val)
-{
-  if (T == NULL)
-    return create_node(val);
-
-  if (val < T->val)
-  {
-    T->left = insert(T->left, val);
-  }
-  else if (val > T->val)
-  {
-    T->right = insert(T->right, val);
-  }
-
-  return T;
-}
-
-node *make_tree(int n, int *values, int index)
-{
-
-  if (index >= n)
-    return NULL;
-
-  tree T = create_node(values[index]);
-  T->left = make_tree(n, values, 2 * index + 1);
-  T->right = make_tree(n, values, 2 * index + 2);
-
-  return T;
 }
 
 void level_order(tree T)
@@ -196,6 +165,17 @@ void level_order(tree T)
       push(head, cur->right);
   }
   printf("\n");
+  free_deq(head);
+}
+
+void free_tree(tree T)
+{
+  if (T == NULL)
+      return;
+
+  free_tree(T->left);
+  free_tree(T->right);
+  free(T);
 }
 
 int pre_index = 0;
@@ -204,24 +184,31 @@ tree get_tree(int *inorder, int *preorder, int start, int end)
 
   if (start > end)
     return NULL;
-
-  tree T = create_node(preorder[pre_index]);
-
-  int cur = -1;
-  for (int i = start; i <= end; ++i)
+  else if (start < end)
   {
-    if (inorder[i] == preorder[pre_index])
-    {
-      cur = i;
-      break;
-    }
-  }
-  ++pre_index;
-  T->left = get_tree(inorder, preorder, start, cur - 1);
-  T->right = get_tree(inorder, preorder, cur + 1, end);
+    tree T = create_node(preorder[pre_index]);
 
-  return T;
-}
+    int cur = -1;
+    for (int i = start; i <= end; ++i)
+    {
+      if (inorder[i] == preorder[pre_index])
+      {
+        cur = i;
+        break;
+      }
+    }
+    ++pre_index;
+    T->left = get_tree(inorder, preorder, start, cur - 1);
+    T->right = get_tree(inorder, preorder, cur + 1, end);
+
+    return T;
+  }
+  else
+  {
+    return create_node(preorder[pre_index++]);
+  }
+
+  }
 
 int main()
 {
@@ -231,8 +218,8 @@ int main()
   {
     int N;
     scanf("%i", &N);
-    int inorder[N];
-    int preorder[N];
+    int *inorder = (int *)malloc(sizeof(int)*N);
+    int *preorder = (int *)malloc(sizeof(int)*N);
     for (int j = 0; j < N; ++j)
       scanf("%i", &inorder[j]);
 
@@ -242,6 +229,9 @@ int main()
     tree t = get_tree(inorder, preorder, 0, N - 1);
 
     level_order(t);
+    free_tree(t);
+    free(inorder);
+    free(preorder);
   }
 
   return 0;
