@@ -256,11 +256,14 @@ int main()
   {
     int N;
     scanf("%i", &N);
-    int values[N];
+    int val;
+    tree t = NULL;
     for (int j = 0; j < N; ++j)
-      scanf("%i", &values[j]);
+    {
+      scanf("%i", &val);
+      t = insert(t, val);
+    }
 
-    tree t = make_tree(N, values, 0);
     zig_zag_order(t);
     free_tree(t);
   }
