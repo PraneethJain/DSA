@@ -1,7 +1,26 @@
 #include "functions.h"
-#include "stack.h"
 #include <stdio.h>
 #include <stdlib.h>
+
+void push(stack *pile, char c)
+{
+  pile->s[pile->top++] = c;
+}
+
+char pop(stack *pile)
+{
+  return pile->s[--pile->top];
+}
+
+char peek(const stack *pile)
+{
+  return pile->s[pile->top - 1];
+}
+
+int is_empty(const stack *pile)
+{
+  return pile->top == 0;
+}
 
 int string_length(char *s)
 {
@@ -31,6 +50,7 @@ char match(char c)
 int is_balanced(char *string, int length)
 {
   stack *pile = (stack *)malloc(sizeof(stack));
+  pile->top = 0;
 
   int balanced = 1;
   int exists = 0;
@@ -67,6 +87,7 @@ int is_palindrome(char *string, int length)
     return 1;
 
   stack *pile = (stack *)malloc(sizeof(stack));
+  pile->top = 0;
 
   int palindrome = 1;
   int middle = length / 2;

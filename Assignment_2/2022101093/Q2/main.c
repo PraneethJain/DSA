@@ -1,4 +1,4 @@
-#include "circular_deque.h"
+#include "functions.h"
 #include <stdio.h>
 #include <stdlib.h>
 

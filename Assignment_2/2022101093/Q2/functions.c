@@ -1,23 +1,6 @@
+#include "functions.h"
 #include <stdio.h>
 #include <stdlib.h>
-
-typedef struct node
-{
-  int val;
-  struct node *next;
-  struct node *prev;
-} node;
-
-typedef struct node *Queue;
-
-void Push(Queue head, int val);
-int Pop(Queue head);
-void Inject(Queue head, int val);
-int popRear(Queue head);
-void Print(Queue head);
-void PrintReverse(Queue head);
-int findElem(Queue head, int pos);
-void removeKElems(Queue head, int k);
 
 void Push(Queue head, int val)
 {
@@ -122,63 +105,4 @@ void removeKElems(Queue head, int k)
 {
   for (int i = 0; i < k; ++i)
     Pop(head);
-}
-
-int main()
-{
-  Queue head = (Queue)malloc(sizeof(node));
-  head->next = head;
-  head->prev = head;
-  head->val = 0;
-
-  int T;
-  scanf("%i", &T);
-  char *s = (char *)malloc(sizeof(char) * 64);
-  for (int i = 0; i < T; ++i)
-  {
-    scanf("%s", s);
-    char oper = s[4];
-    if (oper == '1')
-    {
-      int n;
-      scanf("%i", &n);
-      Push(head, n);
-    }
-    else if (oper == '2')
-    {
-      printf("%i\n", Pop(head));
-    }
-    else if (oper == '3')
-    {
-      int n;
-      scanf("%i", &n);
-      Inject(head, n);
-    }
-    else if (oper == '4')
-    {
-      printf("%i\n", popRear(head));
-    }
-    else if (oper == '5')
-    {
-      Print(head);
-    }
-    else if (oper == '6')
-    {
-      PrintReverse(head);
-    }
-    else if (oper == '7')
-    {
-      int n;
-      scanf("%i", &n);
-      printf("%i\n", findElem(head, n));
-    }
-    else if (oper == '8')
-    {
-      int n;
-      scanf("%i", &n);
-      removeKElems(head, n);
-    }
-  }
-
-  return 0;
 }

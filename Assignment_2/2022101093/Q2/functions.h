@@ -8,7 +8,7 @@ typedef struct node
   struct node *prev;
 } node;
 
-typedef struct node* Queue;
+typedef struct node *Queue;
 
 void Push(Queue head, int val);
 int Pop(Queue head);
