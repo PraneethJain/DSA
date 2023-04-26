@@ -8,6 +8,21 @@ int main()
   Arena a = {0};
   arena_init(&a, buffer, buffer_length);
 
+  int n, q;
+  scanf("%i %i", &n, &q);
+  char s[32];
+  for (int i = 0; i < n; ++i)
+  {
+    scanf("%s", s);
+    // Insert string into hashtable
+  }
+
+  for (int i = 0; i < q; ++i)
+  {
+    scanf("%s", s);
+    // Print values of the hashtable
+  }
+
   a.arena_free(&a);
   return 0;
 }
