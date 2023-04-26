@@ -23,11 +23,16 @@ int main()
   //   // Print values of the hashtable
   // }
 
-  HashTable *h = hashtable_init(&a, 31);
-  insert(&a, h, "hello", 5);
-  insert(&a, h, "elhlo", 5);
-  insert(&a, h, "elhl", 4);
-  print_hashtable(h);
+  // HashTable *h = hashtable_init(&a, 31);
+  // insert(&a, h, "hello", 5);
+  // insert(&a, h, "elhlo", 5);
+  // insert(&a, h, "elhl", 4);
+  // print_hashtable(h);
+  //
+
+  char s[32];
+  scanf("%s", s);
+  printf("%lu\n", string_length(s));
 
   a.arena_free(&a);
   return 0;

@@ -4,6 +4,15 @@
 const int primes[26] = {2,  3,  5,  7,  11, 13, 17, 19, 23, 29, 31, 37, 41,
                         43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101};
 
+size_t string_length(char *str)
+{
+  size_t length = 0;
+  while (str[length] != '\0')
+    ++length;
+
+  return length;
+}
+
 void arena_init(Arena *a, unsigned char *buffer, size_t buffer_length)
 {
   a->buffer = buffer;

@@ -3,6 +3,8 @@
 
 #include <stdio.h>
 
+size_t string_length(char *str);
+
 typedef struct Arena
 {
   unsigned char *buffer;
