@@ -22,6 +22,15 @@ void arena_free(Arena *a)
   a->offset = 0;
 }
 
+Node *create_node(Arena *a, char *str, size_t length)
+{
+  Node *n = (Node *)a->arena_alloc(a, sizeof(Node));
+  n->str = str;
+  n->next = NULL;
+
+  return n;
+}
+
 void print_linked_list(Node *head)
 {
   Node *cur = head;
@@ -47,6 +56,21 @@ HashTable *hashtable_init(Arena *a, size_t size)
     h->arr[i] = NULL;
 
   return h;
+}
+
+int hash(HashTable *h, char *str, size_t length)
+{
+  // Write actual hash function here
+  return 3;
+}
+
+void insert(Arena *a, HashTable *h, char *str, size_t length)
+{
+  int key = hash(h, str, length);
+  Node *old_first = h->arr[key];
+  Node *new_first = create_node(a, str, length);
+  new_first->next = old_first;
+  h->arr[key] = new_first;
 }
 
 // Only for debugging
