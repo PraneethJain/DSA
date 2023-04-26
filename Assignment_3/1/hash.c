@@ -21,3 +21,18 @@ void arena_free(Arena *a)
 {
   a->offset = 0;
 }
+
+void print_linked_list(Node *head)
+{
+  Node *cur = head;
+  if (cur == NULL)
+    printf("-1");
+  else
+    while (cur != NULL)
+    {
+      printf("%i ", cur->val);
+      cur = cur->next;
+    }
+
+  printf("\n");
+}
