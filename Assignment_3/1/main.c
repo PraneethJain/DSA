@@ -8,7 +8,7 @@ int main()
   Arena a = {0};
   arena_init(&a, buffer, buffer_length);
 
-  HashTable *h = hashtable_init(&a, 101);
+  HashTable *h = hashtable_init(&a, 13001);
   int n, q;
   scanf("%i %i", &n, &q);
   char s[32];
