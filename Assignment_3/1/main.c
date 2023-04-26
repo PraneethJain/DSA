@@ -8,31 +8,22 @@ int main()
   Arena a = {0};
   arena_init(&a, buffer, buffer_length);
 
-  // int n, q;
-  // scanf("%i %i", &n, &q);
-  // char s[32];
-  // for (int i = 0; i < n; ++i)
-  // {
-  //   scanf("%s", s);
-  //   // Insert string into hashtable
-  // }
-  //
-  // for (int i = 0; i < q; ++i)
-  // {
-  //   scanf("%s", s);
-  //   // Print values of the hashtable
-  // }
+  HashTable *h = hashtable_init(&a, 101);
+  int n, q;
+  scanf("%i %i", &n, &q);
+  for (int i = 0; i < n; ++i)
+  {
+    char s[32];
+    scanf("%s", s);
+    insert(&a, h, s, string_length(s));
+  }
 
-  // HashTable *h = hashtable_init(&a, 31);
-  // insert(&a, h, "hello", 5);
-  // insert(&a, h, "elhlo", 5);
-  // insert(&a, h, "elhl", 4);
-  // print_hashtable(h);
-  //
-
-  char s[32];
-  scanf("%s", s);
-  printf("%lu\n", string_length(s));
+  for (int i = 0; i < q; ++i)
+  {
+    char s[32];
+    scanf("%s", s);
+    print_anagrams(h, s, string_length(s));
+  }
 
   a.arena_free(&a);
   return 0;

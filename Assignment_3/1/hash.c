@@ -37,9 +37,9 @@ void arena_free(Arena *a)
 Node *create_node(Arena *a, char *str)
 {
   Node *n = (Node *)a->arena_alloc(a, sizeof(Node));
-  n->str = str;
+  for (size_t i = 0; i < 16; ++i)
+    n->str[i] = str[i];
   n->next = NULL;
-
   return n;
 }
 
@@ -56,6 +56,14 @@ void print_linked_list(Node *head)
     }
 
   printf("\n");
+}
+
+void print_linked_list_reverse(Node *head)
+{
+  if (head == NULL)
+    return;
+  print_linked_list_reverse(head->next);
+  printf("%s ", head->str);
 }
 
 HashTable *hashtable_init(Arena *a, size_t size)
@@ -87,6 +95,16 @@ void insert(Arena *a, HashTable *h, char *str, size_t length)
   Node *new_first = create_node(a, str);
   new_first->next = old_first;
   h->arr[key] = new_first;
+}
+
+void print_anagrams(HashTable *h, char *str, size_t length)
+{
+  int key = hash(h, str, length);
+  if (h->arr[key] == NULL)
+    printf("-1");
+  else
+    print_linked_list_reverse(h->arr[key]);
+  printf("\n");
 }
 
 // Only for debugging
