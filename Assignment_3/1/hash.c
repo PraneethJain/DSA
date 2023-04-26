@@ -1,6 +1,9 @@
 #include "hash.h"
 #include <stdio.h>
 
+const int primes[26] = {2,  3,  5,  7,  11, 13, 17, 19, 23, 29, 31, 37, 41,
+                        43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101};
+
 void arena_init(Arena *a, unsigned char *buffer, size_t buffer_length)
 {
   a->buffer = buffer;
@@ -60,8 +63,12 @@ HashTable *hashtable_init(Arena *a, size_t size)
 
 int hash(HashTable *h, char *str, size_t length)
 {
-  // Write actual hash function here
-  return 3;
+  int res = 1;
+  for (size_t i = 0; i < length; ++i)
+  {
+    res = (res * primes[str[i] - 'a']) % h->size;
+  }
+  return res;
 }
 
 void insert(Arena *a, HashTable *h, char *str, size_t length)

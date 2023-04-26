@@ -24,8 +24,9 @@ int main()
   // }
 
   HashTable *h = hashtable_init(&a, 31);
-  insert(&a, h, "Hello", 5);
-  insert(&a, h, "Hello", 5);
+  insert(&a, h, "hello", 5);
+  insert(&a, h, "elhlo", 5);
+  insert(&a, h, "elhl", 4);
   print_hashtable(h);
 
   a.arena_free(&a);
