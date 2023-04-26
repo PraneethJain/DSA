@@ -22,7 +22,7 @@ typedef struct Node
   struct Node *next;
 } Node;
 
-Node *create_node(Arena *a, char *str, size_t length);
+Node *create_node(Arena *a, char *str);
 void print_linked_list(Node *head);
 
 typedef struct HashTable

@@ -25,7 +25,7 @@ void arena_free(Arena *a)
   a->offset = 0;
 }
 
-Node *create_node(Arena *a, char *str, size_t length)
+Node *create_node(Arena *a, char *str)
 {
   Node *n = (Node *)a->arena_alloc(a, sizeof(Node));
   n->str = str;
@@ -75,7 +75,7 @@ void insert(Arena *a, HashTable *h, char *str, size_t length)
 {
   int key = hash(h, str, length);
   Node *old_first = h->arr[key];
-  Node *new_first = create_node(a, str, length);
+  Node *new_first = create_node(a, str);
   new_first->next = old_first;
   h->arr[key] = new_first;
 }
