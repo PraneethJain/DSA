@@ -18,7 +18,7 @@ void arena_free(Arena *a);
 
 typedef struct Node
 {
-  int val;
+  char str[32];
   struct Node *next;
 } Node;
 
@@ -27,10 +27,10 @@ void print_linked_list(Node *head);
 typedef struct HashTable
 {
   size_t size;
-  Node *arr;
+  Node **arr;
 } HashTable;
 
-HashTable *hashtable_init(size_t size);
+HashTable *hashtable_init(Arena *a, size_t size);
 int hash(char *str, size_t length);
 Node *find(char *str, size_t length);
 void print_hashtable(HashTable *h);

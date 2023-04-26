@@ -30,9 +30,32 @@ void print_linked_list(Node *head)
   else
     while (cur != NULL)
     {
-      printf("%i ", cur->val);
+      printf("%s ", cur->str);
       cur = cur->next;
     }
 
+  printf("\n");
+}
+
+HashTable *hashtable_init(Arena *a, size_t size)
+{
+  HashTable *h = (HashTable *)a->arena_alloc(a, sizeof(HashTable));
+  h->arr = (Node **)a->arena_alloc(a, sizeof(Node *) * size);
+  h->size = size;
+
+  for (size_t i = 0; i < size; ++i)
+    h->arr[i] = NULL;
+
+  return h;
+}
+
+// Only for debugging
+void print_hashtable(HashTable *h)
+{
+  for (size_t i = 0; i < h->size; ++i)
+  {
+    printf("%lu ", i);
+    print_linked_list(h->arr[i]);
+  }
   printf("\n");
 }
