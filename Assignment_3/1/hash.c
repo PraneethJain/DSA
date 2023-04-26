@@ -1,13 +1,6 @@
 #include "hash.h"
 #include <stdio.h>
 
-typedef struct Arena
-{
-  unsigned char *buffer;
-  size_t buffer_length;
-  size_t offset;
-} Arena;
-
 void arena_init(Arena *a, unsigned char *buffer, size_t buffer_length)
 {
   a->buffer = buffer;
