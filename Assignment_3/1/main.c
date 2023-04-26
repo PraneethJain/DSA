@@ -11,16 +11,15 @@ int main()
   HashTable *h = hashtable_init(&a, 101);
   int n, q;
   scanf("%i %i", &n, &q);
+  char s[32];
   for (int i = 0; i < n; ++i)
   {
-    char s[32];
     scanf("%s", s);
     insert(&a, h, s, string_length(s));
   }
 
   for (int i = 0; i < q; ++i)
   {
-    char s[32];
     scanf("%s", s);
     print_anagrams(h, s, string_length(s));
   }
