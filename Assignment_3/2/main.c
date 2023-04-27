@@ -9,18 +9,18 @@ int main()
   arena_init(&a, buffer, buffer_length);
 
   size_t length = 5;
-  char *str = "hello";
+  char *str = "abbab";
   int **res = hash(&a, str, length);
   int *forward_hash = res[0];
   int *reverse_hash = res[1];
 
-  for (int i = 0; i < length; ++i)
-    printf("%i ", forward_hash[i]);
-  printf("\n");
-
-  for (int i = 0; i < length; ++i)
-    printf("%i ", reverse_hash[i]);
-  printf("\n");
+  // for (int i = 0; i < length; ++i)
+  //   printf("%i ", forward_hash[i]);
+  // printf("\n");
+  //
+  // for (int i = 0; i < length; ++i)
+  //   printf("%i ", reverse_hash[i]);
+  // printf("\n");
 
   a.arena_free(&a);
   return 0;

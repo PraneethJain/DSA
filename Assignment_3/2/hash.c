@@ -2,6 +2,7 @@
 #include <stdio.h>
 
 const int p = 31;
+const int size = 13001;
 
 void arena_init(Arena *a, unsigned char *buffer, size_t buffer_length)
 {
@@ -31,10 +32,15 @@ int **hash(Arena *a, char *str, size_t length)
   res[0] = (int *)a->arena_alloc(a, sizeof(int) * length);
   res[1] = (int *)a->arena_alloc(a, sizeof(int) * length);
 
-  for (int i = 0; i < length; ++i)
+  res[0][0] = str[0] - 'a';
+  res[1][0] = str[length - 1] - 'a';
+
+  int cur = p;
+  for (int i = 1; i < length; ++i)
   {
-    res[0][i] = i;
-    res[1][length - 1 - i] = i;
+    res[0][i] = (res[0][i - 1] + ((str[i] - 'a') * cur) % size) % size;
+    res[1][i] = (res[0][i - 1] + ((str[length - 1 - i] - 'a') * cur) % size) % size;
+    cur = (cur * p) % size;
   }
 
   return res;
