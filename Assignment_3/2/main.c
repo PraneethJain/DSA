@@ -9,6 +9,14 @@ int main()
   Arena a = {0};
   arena_init(&a, buffer, buffer_length);
 
+  int *powers = compute_powers(&a, 3, 10);
+  for (int i = 0; i < 10; ++i)
+  {
+    printf("%i ", powers[i]);
+  }
+  printf("\n");
+  return 0;
+
   size_t length;
   int q;
   scanf("%lu %i", &length, &q);

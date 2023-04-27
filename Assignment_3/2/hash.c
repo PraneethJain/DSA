@@ -26,6 +26,16 @@ void arena_free(Arena *a)
   a->offset = 0;
 }
 
+int *compute_powers(Arena *a, int num, size_t n)
+{
+  int *powers = (int *)a->arena_alloc(a, sizeof(int) * n);
+  powers[0] = 1;
+  for (size_t i = 1; i < n; ++i)
+    powers[i] = (powers[i - 1] * num) % size;
+
+  return powers;
+}
+
 // Returns the cumulative hashes in both orders
 int **hash(Arena *a, char *str, size_t length)
 {
