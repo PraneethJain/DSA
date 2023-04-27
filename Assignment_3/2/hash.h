@@ -1,6 +1,7 @@
 #ifndef __HASH_H
 #define __HASH_H
 
+#include <stdbool.h>
 #include <stdio.h>
 
 typedef struct Arena
@@ -17,5 +18,6 @@ void *arena_alloc(Arena *a, size_t size);
 void arena_free(Arena *a);
 
 int **hash(Arena *a, char *str, size_t length);
+bool is_palindrome(int *forward_hash, int *reverse_hash, size_t x, size_t y, size_t length);
 
 #endif

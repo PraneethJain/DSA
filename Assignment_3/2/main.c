@@ -1,4 +1,5 @@
 #include "hash.h"
+#include <stdbool.h>
 #include <stdio.h>
 
 int main()
@@ -8,8 +9,11 @@ int main()
   Arena a = {0};
   arena_init(&a, buffer, buffer_length);
 
-  size_t length = 5;
-  char *str = "abbab";
+  size_t length;
+  int q;
+  scanf("%lu %i", &length, &q);
+  char str[length + 1];
+  scanf("%s", str);
   int **res = hash(&a, str, length);
   int *forward_hash = res[0];
   int *reverse_hash = res[1];
@@ -21,6 +25,17 @@ int main()
   // for (int i = 0; i < length; ++i)
   //   printf("%i ", reverse_hash[i]);
   // printf("\n");
+
+  size_t l, r;
+  for (int i = 0; i < q; ++i)
+  {
+    scanf("%lu %lu", &l, &r);
+    if (is_palindrome(forward_hash, reverse_hash, l - 1, r - 1, length))
+      printf("YES");
+    else
+      printf("NO");
+    printf("\n");
+  }
 
   a.arena_free(&a);
   return 0;
