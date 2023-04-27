@@ -19,13 +19,13 @@ int main()
   int *forward_hash = res[0];
   int *reverse_hash = res[1];
 
-  for (int i = 0; i < length; ++i)
-    printf("%i ", forward_hash[i]);
-  printf("\n");
-
-  for (int i = 0; i < length; ++i)
-    printf("%i ", reverse_hash[i]);
-  printf("\n");
+  // for (int i = 0; i < length; ++i)
+  //   printf("%i ", forward_hash[i]);
+  // printf("\n");
+  //
+  // for (int i = 0; i < length; ++i)
+  //   printf("%i ", reverse_hash[i]);
+  // printf("\n");
 
   size_t l, r;
   for (int i = 0; i < q; ++i)
