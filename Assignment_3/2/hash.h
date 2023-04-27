@@ -19,6 +19,6 @@ void arena_free(Arena *a);
 
 int *compute_powers(Arena *a, int num, size_t n);
 int **hash(Arena *a, char *str, size_t length, int *powers);
-bool is_palindrome(int *forward_hash, int *reverse_hash, size_t x, size_t y, size_t length, int *powers);
+bool is_palindrome(int *forward_hash, int *reverse_hash, int x, int y, int length, int *powers);
 
 #endif

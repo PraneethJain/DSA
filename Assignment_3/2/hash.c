@@ -64,15 +64,17 @@ int raise(int base, int exp)
   return res;
 }
 
-bool is_palindrome(int *forward_hash, int *reverse_hash, size_t x, size_t y, size_t length, int *powers)
+bool is_palindrome(int *forward_hash, int *reverse_hash, int x, int y, int length, int *powers)
 {
-  int t1 = forward_hash[y] - forward_hash[x];
-  // printf("%i %i\n", reverse_hash[length - 1 - x], reverse_hash[length - 1 - y]);
-  int t2 = reverse_hash[length - 1 - x] - reverse_hash[length - 1 - y];
-  int other_t1 = (t1 * powers[y - x]) % size;
-  int other_t2 = (t2 * powers[y - x]) % size;
+  int t1 = forward_hash[y] - (x == 0 ? 0 : forward_hash[x - 1]);
+  int t2 = reverse_hash[length - 1 - x] - (y == length - 1 ? 0 : reverse_hash[length - 2 - y]);
 
-  // printf("%i %i %i %i\n", t1, t2, other_t1, other_t2);
+  // printf("%i %i\n", t1, t2);
+  // printf("%i\n", x + y + 1 - length);
+  if (x + y + 1 - length > 0)
+    t2 = (t2 * powers[x + y + 1 - length]) % size;
+  else
+    t1 = (t1 * powers[length - x - y - 1]) % size;
 
-  return t1 == t2 || t1 == other_t2 || t2 == other_t1;
+  return t1 == t2;
 }
