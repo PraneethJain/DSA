@@ -41,7 +41,6 @@ void print_anagrams(HashTable *h, char *str, size_t length);
 void print_hashtable(HashTable *h);
 
 #endif
-#include "hash.h"
 #include <stdio.h>
 
 const int primes[26] = {2,  3,  5,  7,  11, 13, 17, 19, 23, 29, 31, 37, 41,
@@ -160,9 +159,6 @@ void print_hashtable(HashTable *h)
   }
   printf("\n");
 }
-
-#include "hash.h"
-#include <stdio.h>
 
 int main()
 {
