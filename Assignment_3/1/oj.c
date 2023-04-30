@@ -66,6 +66,7 @@ void print_linked_list(Node *head)
   printf("\n");
 }
 
+int printed = 0;
 void print_linked_list_reverse(Node *head, int *correct, size_t length)
 {
   if (head == NULL)
@@ -86,7 +87,10 @@ void print_linked_list_reverse(Node *head, int *correct, size_t length)
     }
   }
   if (is_equal)
+  {
     printf("%s ", head->str);
+    printed = 1;
+  }
 }
 
 HashTable *hashtable_init(size_t size)
@@ -123,15 +127,14 @@ void insert(HashTable *h, char *str, size_t length)
 void print_anagrams(HashTable *h, char *str, size_t length)
 {
   int key = hash(h, str, length);
-  if (h->arr[key] == NULL)
+  int arr[26] = {0};
+  for (int i = 0; i < length; ++i)
+    arr[str[i] - 'a']++;
+  printed = 0;
+  print_linked_list_reverse(h->arr[key], arr, length);
+  if (!printed)
     printf("-1");
-  else
-  {
-    int arr[26] = {0};
-    for (int i = 0; i < length; ++i)
-      arr[str[i] - 'a']++;
-    print_linked_list_reverse(h->arr[key], arr, length);
-  }
+
   printf("\n");
 }
 
