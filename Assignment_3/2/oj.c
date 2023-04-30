@@ -10,8 +10,6 @@ int **hash(char *str, size_t length, int *powers);
 bool is_palindrome(int *forward_hash, int *reverse_hash, int x, int y, int length, int *powers);
 
 #endif
-#include <stdbool.h>
-#include <stdio.h>
 
 const int size = 1572869;
 
@@ -93,6 +91,12 @@ int main()
   for (int i = 0; i < q; ++i)
   {
     scanf("%zu %zu", &l, &r);
+    // Check if input is correct
+    if (l < 1 || r > length)
+    {
+      printf("NO\n");
+      continue;
+    }
     if (is_palindrome(forward_hash, reverse_hash, l - 1, r - 1, length, powers))
       printf("YES");
     else
