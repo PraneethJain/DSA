@@ -14,7 +14,7 @@ typedef struct Node
 
 Node *create_node(char *str);
 void print_linked_list(Node *head);
-void print_linked_list_reverse(Node *head);
+void print_linked_list_reverse(Node *head, int *correct, size_t length);
 
 typedef struct HashTable
 {
@@ -22,7 +22,7 @@ typedef struct HashTable
   Node **arr;
 } HashTable;
 
-HashTable *hashtable_init( size_t size);
+HashTable *hashtable_init(size_t size);
 int hash(HashTable *h, char *str, size_t length);
 void insert(HashTable *h, char *str, size_t length);
 void print_anagrams(HashTable *h, char *str, size_t length);
@@ -42,8 +42,7 @@ size_t string_length(char *str)
   return length;
 }
 
-
-Node *create_node( char *str)
+Node *create_node(char *str)
 {
   Node *n = (Node *)malloc(sizeof(Node));
   for (size_t i = 0; i < 16; ++i)
@@ -67,12 +66,29 @@ void print_linked_list(Node *head)
   printf("\n");
 }
 
-void print_linked_list_reverse(Node *head)
+void print_linked_list_reverse(Node *head, int *correct, size_t length)
 {
   if (head == NULL)
     return;
-  print_linked_list_reverse(head->next);
-  printf("%s ", head->str);
+  print_linked_list_reverse(head->next, correct, length);
+  int arr[26];
+  for (int i = 0; i < 26; ++i)
+    arr[i] = 0;
+
+  for (int i = 0; i < length; ++i)
+    arr[head->str[i] - 'a']++;
+
+  int is_equal = 1;
+  for (int i = 0; i < 26; ++i)
+  {
+    if (arr[i] != correct[i])
+    {
+      is_equal = 0;
+      break;
+    }
+  }
+  if (is_equal)
+    printf("%s ", head->str);
 }
 
 HashTable *hashtable_init(size_t size)
@@ -112,7 +128,14 @@ void print_anagrams(HashTable *h, char *str, size_t length)
   if (h->arr[key] == NULL)
     printf("-1");
   else
-    print_linked_list_reverse(h->arr[key]);
+  {
+    int arr[26];
+    for (int i = 0; i < 26; ++i)
+      arr[i] = 0;
+    for (int i = 0; i < length; ++i)
+      arr[str[i] - 'a']++;
+    print_linked_list_reverse(h->arr[key], arr, length);
+  }
   printf("\n");
 }
 
@@ -130,7 +153,7 @@ void print_hashtable(HashTable *h)
 int main()
 {
 
-  HashTable *h = hashtable_init(1572869);
+  HashTable *h = hashtable_init(13001);
   int n, q;
   scanf("%i %i", &n, &q);
   char s[32];
