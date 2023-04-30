@@ -25,5 +25,6 @@ int main()
   }
 
   a.arena_free(&a);
+
   return 0;
 }

@@ -204,5 +204,7 @@ int main()
     print_anagrams(h, s, string_length(s));
   }
 
+  a.arena_free(&a);
+
   return 0;
 }

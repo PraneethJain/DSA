@@ -26,7 +26,7 @@ typedef struct Node
 
 Node *create_node(Arena *a, char *str);
 void print_linked_list(Node *head);
-void print_linked_list_reverse(Node *head);
+void print_linked_list_reverse(Node *head, int *correct, size_t length, int *printed);
 
 typedef struct HashTable
 {

@@ -58,12 +58,30 @@ void print_linked_list(Node *head)
   printf("\n");
 }
 
-void print_linked_list_reverse(Node *head)
+void print_linked_list_reverse(Node *head, int *correct, size_t length, int *printed)
 {
   if (head == NULL)
     return;
-  print_linked_list_reverse(head->next);
-  printf("%s ", head->str);
+  print_linked_list_reverse(head->next, correct, length, printed);
+  int arr[26] = {0};
+
+  for (int i = 0; i < length; ++i)
+    arr[head->str[i] - 'a']++;
+
+  int is_equal = 1;
+  for (int i = 0; i < 26; ++i)
+  {
+    if (arr[i] != correct[i])
+    {
+      is_equal = 0;
+      break;
+    }
+  }
+  if (is_equal)
+  {
+    printf("%s ", head->str);
+    *printed = 1;
+  }
 }
 
 HashTable *hashtable_init(Arena *a, size_t size)
@@ -100,10 +118,14 @@ void insert(Arena *a, HashTable *h, char *str, size_t length)
 void print_anagrams(HashTable *h, char *str, size_t length)
 {
   int key = hash(h, str, length);
-  if (h->arr[key] == NULL)
+  int arr[26] = {0};
+  for (int i = 0; i < length; ++i)
+    arr[str[i] - 'a']++;
+  int printed = 0;
+  print_linked_list_reverse(h->arr[key], arr, length, &printed);
+  if (!printed)
     printf("-1");
-  else
-    print_linked_list_reverse(h->arr[key]);
+
   printf("\n");
 }
 
