@@ -26,7 +26,7 @@ typedef struct Node
 
 Node *create_node(Arena *a, char *str);
 void print_linked_list(Node *head);
-void print_linked_list_reverse(Node *head, int *correct, size_t length);
+void print_linked_list_reverse(Node *head, int *correct, size_t length, int *printed);
 
 typedef struct HashTable
 {
@@ -99,12 +99,11 @@ void print_linked_list(Node *head)
   printf("\n");
 }
 
-int printed = 0;
-void print_linked_list_reverse(Node *head, int *correct, size_t length)
+void print_linked_list_reverse(Node *head, int *correct, size_t length, int *printed)
 {
   if (head == NULL)
     return;
-  print_linked_list_reverse(head->next, correct, length);
+  print_linked_list_reverse(head->next, correct, length, printed);
   int arr[26] = {0};
 
   for (int i = 0; i < length; ++i)
@@ -122,7 +121,7 @@ void print_linked_list_reverse(Node *head, int *correct, size_t length)
   if (is_equal)
   {
     printf("%s ", head->str);
-    printed = 1;
+    *printed = 1;
   }
 }
 
@@ -163,8 +162,8 @@ void print_anagrams(HashTable *h, char *str, size_t length)
   int arr[26] = {0};
   for (int i = 0; i < length; ++i)
     arr[str[i] - 'a']++;
-  printed = 0;
-  print_linked_list_reverse(h->arr[key], arr, length);
+  int printed = 0;
+  print_linked_list_reverse(h->arr[key], arr, length, &printed);
   if (!printed)
     printf("-1");
 
