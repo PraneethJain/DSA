@@ -67,6 +67,15 @@ bool is_palindrome(int *forward_hash, int *reverse_hash, int x, int y, int lengt
   return t1 == t2;
 }
 
+bool is_palindrome_slow(char *str, size_t length)
+{
+  for (size_t i = 0; i < length / 2; ++i)
+    if (str[i] != str[length - i - 1])
+      return false;
+
+  return true;
+}
+
 int main()
 {
   size_t length;
@@ -74,34 +83,36 @@ int main()
   scanf("%zu %i", &length, &q);
   char str[length + 1];
   scanf("%s", str);
-  int *powers = compute_powers(2, length);
-  int **res = hash(str, length, powers);
-  int *forward_hash = res[0];
-  int *reverse_hash = res[1];
-
-  // for (int i = 0; i < length; ++i)
-  //   printf("%i ", forward_hash[i]);
-  // printf("\n");
-  //
-  // for (int i = 0; i < length; ++i)
-  //   printf("%i ", reverse_hash[i]);
-  // printf("\n");
 
   size_t l, r;
-  for (int i = 0; i < q; ++i)
+  if (length < 100000)
   {
-    scanf("%zu %zu", &l, &r);
-    // Check if input is correct
-    if (l < 1 || r > length)
+    for (size_t i = 0; i < q; ++i)
     {
-      printf("NO\n");
-      continue;
+      scanf("%zu %zu", &l, &r);
+      if (is_palindrome_slow(str + l - 1, r - l + 1))
+        printf("YES");
+      else
+        printf("NO");
+      printf("\n");
     }
-    if (is_palindrome(forward_hash, reverse_hash, l - 1, r - 1, length, powers))
-      printf("YES");
-    else
-      printf("NO");
-    printf("\n");
+  }
+  else
+  {
+    int *powers = compute_powers(2, length);
+    int **res = hash(str, length, powers);
+    int *forward_hash = res[0];
+    int *reverse_hash = res[1];
+
+    for (size_t i = 0; i < q; ++i)
+    {
+      scanf("%zu %zu", &l, &r);
+      if (is_palindrome(forward_hash, reverse_hash, l - 1, r - 1, length, powers))
+        printf("YES");
+      else
+        printf("NO");
+      printf("\n");
+    }
   }
 
   return 0;
