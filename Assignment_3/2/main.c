@@ -1,36 +1,27 @@
 #include "hash.h"
 #include <stdbool.h>
+#include <stdint.h>
 #include <stdio.h>
+#include <stdlib.h>
+#define int long long
 
-int main()
+int32_t main()
 {
-  const size_t buffer_length = 1024 * 1024;
-  unsigned char buffer[buffer_length];
-  Arena a = {0};
-  arena_init(&a, buffer, buffer_length);
-
   size_t length;
   int q;
-  scanf("%lu %i", &length, &q);
+  scanf("%zu %lli", &length, &q);
   char str[length + 1];
   scanf("%s", str);
-  int *powers = compute_powers(&a, 3, length);
-  int **res = hash(&a, str, length, powers);
+
+  int *powers = compute_powers(37, length);
+  int **res = hash(str, length, powers);
   int *forward_hash = res[0];
   int *reverse_hash = res[1];
 
-  // for (int i = 0; i < length; ++i)
-  //   printf("%i ", forward_hash[i]);
-  // printf("\n");
-  //
-  // for (int i = 0; i < length; ++i)
-  //   printf("%i ", reverse_hash[i]);
-  // printf("\n");
-
   size_t l, r;
-  for (int i = 0; i < q; ++i)
+  for (size_t i = 0; i < q; ++i)
   {
-    scanf("%lu %lu", &l, &r);
+    scanf("%zu %zu", &l, &r);
     if (is_palindrome(forward_hash, reverse_hash, l - 1, r - 1, length, powers))
       printf("YES");
     else
@@ -38,6 +29,5 @@ int main()
     printf("\n");
   }
 
-  a.arena_free(&a);
   return 0;
 }
