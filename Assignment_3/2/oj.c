@@ -15,8 +15,6 @@ bool is_palindrome(int *forward_hash, int *reverse_hash, int x, int y, int lengt
 #endif
 
 const int size = 3145739;
-// const int size = 12289;
-// const int size = 12582917;
 
 int *compute_powers(int num, size_t n)
 {
@@ -81,15 +79,6 @@ bool is_palindrome(int *forward_hash, int *reverse_hash, int x, int y, int lengt
   return t1 == t2;
 }
 
-bool is_palindrome_slow(char *str, size_t length)
-{
-  for (size_t i = 0; i < length / 2; ++i)
-    if (str[i] != str[length - i - 1])
-      return false;
-
-  return true;
-}
-
 int32_t main()
 {
   size_t length;
@@ -98,26 +87,12 @@ int32_t main()
   char str[length + 1];
   scanf("%s", str);
 
-  size_t l, r;
-  // if (length < 100000)
-  // {
-  //   for (size_t i = 0; i < q; ++i)
-  //   {
-  //     scanf("%zu %zu", &l, &r);
-  //     if (is_palindrome_slow(str + l - 1, r - l + 1))
-  //       printf("YES");
-  //     else
-  //       printf("NO");
-  //     printf("\n");
-  //   }
-  // }
-  // else
-  // {
   int *powers = compute_powers(37, length);
   int **res = hash(str, length, powers);
   int *forward_hash = res[0];
   int *reverse_hash = res[1];
 
+  size_t l, r;
   for (size_t i = 0; i < q; ++i)
   {
     scanf("%zu %zu", &l, &r);
@@ -127,7 +102,6 @@ int32_t main()
       printf("NO");
     printf("\n");
   }
-  // }
 
   return 0;
 }
