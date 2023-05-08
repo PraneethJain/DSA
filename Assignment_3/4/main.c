@@ -7,8 +7,12 @@ int main()
   Arena a = {0};
   arena_init(&a, buffer, buffer_length);
 
-  int arr[] = {-1111111, 2, 1, 4, 3, 5, 9, 6, 10, 8, 7};
-  size_t length = sizeof(arr) / sizeof(arr[0]) - 1;
+  size_t length;
+  scanf("%zu", &length);
+
+  int arr[length + 1];
+  for (size_t i = 1; i <= length; ++i)
+    scanf("%i", &arr[i]);
 
   heap *h = heapify(&a, arr, length);
   print(h);
