@@ -15,7 +15,26 @@ int main()
     scanf("%i", &arr[i]);
 
   heap *h = heapify(&a, arr, length);
-  print(h);
+  int res[length + 1];
+  size_t cur_index = 1;
+  while (!is_empty(h))
+  {
+    if (top(h) == arr[cur_index])
+    {
+      int x = pop(h);
+      int y = pop(h);
+      res[cur_index++] = y;
+      insert(h, x);
+    }
+    else
+      res[cur_index++] = pop(h);
+  }
+
+  for (size_t i = 1; i <= length; ++i)
+  {
+    printf("%i ", res[i]);
+  }
+  printf("\n");
 
   a.arena_free(&a);
 
