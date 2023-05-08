@@ -61,6 +61,11 @@ void insert(heap *h, int x)
   }
 }
 
+int top(heap *h)
+{
+  return h->arr[1];
+}
+
 int pop(heap *h)
 {
   int to_return = h->arr[1];

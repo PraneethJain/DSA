@@ -28,6 +28,7 @@ typedef struct heap
 
 heap *init_heap(Arena *a, size_t capacity);
 void insert(heap *h, int x);
+int top(heap *h);
 int pop(heap *h);
 heap *heapify(Arena *a, int *arr, size_t length);
 void print(heap *h);
