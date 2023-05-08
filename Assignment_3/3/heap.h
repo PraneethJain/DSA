@@ -16,6 +16,9 @@ void arena_init(Arena *a, unsigned char *buffer, size_t buffer_length);
 void *arena_alloc(Arena *a, size_t size);
 void arena_free(Arena *a);
 
+void swap(int *x, int *y);
+int min(int x, int y);
+
 typedef struct heap
 {
   size_t capacity;
@@ -25,6 +28,7 @@ typedef struct heap
 
 heap *init_heap(Arena *a, size_t capacity);
 void insert(heap *h, int x);
+int pop(heap *h);
 void print(heap *h);
 
 #endif

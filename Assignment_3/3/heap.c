@@ -28,6 +28,11 @@ void swap(int *x, int *y)
   *y = temp;
 }
 
+int min(int x, int y)
+{
+  return x > y ? y : x;
+}
+
 heap *init_heap(Arena *a, size_t capacity)
 {
   heap *h = (heap *)a->arena_alloc(a, sizeof(heap));
@@ -41,13 +46,37 @@ heap *init_heap(Arena *a, size_t capacity)
 
 void insert(heap *h, int x)
 {
-  h->arr[1 + h->length++] = x;
+  h->arr[++h->length] = x;
   size_t cur = h->length;
-  while (cur != 1 && h->arr[cur] <= h->arr[cur / 2])
+  while (cur != 1 && h->arr[cur] < h->arr[cur / 2])
   {
     swap(&h->arr[cur], &h->arr[cur / 2]);
     cur /= 2;
   }
+}
+
+int pop(heap *h)
+{
+  int to_return = h->arr[1];
+
+  h->arr[1] = h->arr[h->length--];
+  size_t cur = 1;
+  size_t next_idx;
+  while (2 * cur <= h->length)
+  {
+    if (2 * cur + 1 <= h->length)
+      next_idx = h->arr[2 * cur] > h->arr[2 * cur + 1] ? 2 * cur + 1 : 2 * cur;
+    else
+      next_idx = 2 * cur;
+
+    if (h->arr[cur] > h->arr[next_idx])
+      swap(&h->arr[cur], &h->arr[next_idx]);
+    else
+      break;
+    cur = next_idx;
+  }
+
+  return to_return;
 }
 
 void print(heap *h)

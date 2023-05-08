@@ -15,6 +15,7 @@ int main()
   insert(h, 100);
   insert(h, 24);
   insert(h, 33);
+  pop(h);
   print(h);
 
   a.arena_free(&a);
