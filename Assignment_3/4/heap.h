@@ -1,6 +1,7 @@
 #ifndef __HEAP_H
 #define __HEAP_H
 
+#include <stdbool.h>
 #include <stdio.h>
 
 typedef struct Arena
@@ -30,6 +31,7 @@ heap *init_heap(Arena *a, size_t capacity);
 void insert(heap *h, int x);
 int top(heap *h);
 int pop(heap *h);
+bool is_empty(heap *h);
 heap *heapify(Arena *a, int *arr, size_t length);
 void print(heap *h);
 

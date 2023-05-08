@@ -90,6 +90,11 @@ int pop(heap *h)
   return to_return;
 }
 
+bool is_empty(heap *h)
+{
+  return h->length == 0;
+}
+
 heap *heapify(Arena *a, int *arr, size_t length)
 {
   heap *h = (heap *)a->arena_alloc(a, sizeof(heap));
