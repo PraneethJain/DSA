@@ -31,3 +31,15 @@ heap *init_heap(Arena *a, size_t capacity)
 
   return h;
 }
+
+void insert(heap *h, int x)
+{
+  h->arr[h->length++] = x;
+}
+
+void print(heap *h)
+{
+  for (int i = 0; i < h->length; ++i)
+    printf("%i ", h->arr[i]);
+  printf("\n");
+}

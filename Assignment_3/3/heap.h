@@ -24,5 +24,7 @@ typedef struct heap
 } heap;
 
 heap *init_heap(Arena *a, size_t capacity);
+void insert(heap *h, int x);
+void print(heap *h);
 
 #endif
