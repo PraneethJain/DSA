@@ -23,4 +23,6 @@ typedef struct heap
   size_t length;
 } heap;
 
+heap *init_heap(Arena *a, size_t capacity);
+
 #endif

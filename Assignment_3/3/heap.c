@@ -20,3 +20,14 @@ void arena_free(Arena *a)
 {
   a->offset = 0;
 }
+
+heap *init_heap(Arena *a, size_t capacity)
+{
+  heap *h = (heap *)a->arena_alloc(a, sizeof(heap));
+
+  h->capacity = capacity;
+  h->length = 0;
+  h->arr = (int *)a->arena_alloc(a, sizeof(int) * capacity);
+
+  return h;
+}
