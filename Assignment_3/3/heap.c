@@ -27,7 +27,7 @@ heap *init_heap(Arena *a, size_t capacity)
 
   h->capacity = capacity;
   h->length = 0;
-  h->arr = (int *)a->arena_alloc(a, sizeof(int) * capacity);
+  h->arr = (int *)a->arena_alloc(a, sizeof(int) * (capacity + 1));
 
   return h;
 }
@@ -39,7 +39,7 @@ void insert(heap *h, int x)
 
 void print(heap *h)
 {
-  for (int i = 0; i < h->length; ++i)
+  for (int i = 1; i <= h->length; ++i)
     printf("%i ", h->arr[i]);
   printf("\n");
 }
