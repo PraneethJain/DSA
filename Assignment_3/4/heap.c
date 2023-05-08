@@ -100,13 +100,9 @@ heap *heapify(Arena *a, int *arr, size_t length)
   {
     int min_val = min(h->arr[i], h->arr[2 * i], h->arr[2 * i + 1]);
     if (min_val == h->arr[2 * i])
-    {
       swap(&h->arr[i], &h->arr[2 * i]);
-    }
     else if (min_val == h->arr[2 * i + 1])
-    {
       swap(&h->arr[i], &h->arr[2 * i + 1]);
-    }
   }
 
   return h;
