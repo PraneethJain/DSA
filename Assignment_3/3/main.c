@@ -9,28 +9,25 @@ int main()
   arena_init(&a, buffer, buffer_length);
 
   heap *h = init_heap(&a, 100000);
-  int x;
-  while (1)
+
+  size_t n;
+  scanf("%zu", &n);
+  size_t ans = 0;
+  int sum = 0;
+  for (size_t i = 0; i < n; ++i)
   {
-    printf("1 to insert\n2 to pop\n");
-    scanf("%i", &x);
-    if (x == 1)
+    int cur;
+    scanf("%i", &cur);
+    ++ans;
+    sum += cur;
+    insert(h, cur);
+    if (sum < 0)
     {
-      scanf("%i", &x);
-      insert(h, x);
+      --ans;
+      sum -= pop(h);
     }
-    else if (x == 2)
-    {
-      printf("Popped: %i\n", pop(h));
-    }
-    else
-    {
-      break;
-    }
-    printf("\n");
-    printf("Heap: ");
-    print(h);
   }
+  printf("%zu\n", ans);
 
   a.arena_free(&a);
 
