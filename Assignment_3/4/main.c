@@ -22,8 +22,7 @@ int main()
     if (top(h) == arr[cur_index])
     {
       int x = pop(h);
-      int y = pop(h);
-      res[cur_index++] = y;
+      res[cur_index++] = pop(h);
       insert(h, x);
     }
     else
@@ -31,9 +30,7 @@ int main()
   }
 
   for (size_t i = 1; i <= length; ++i)
-  {
     printf("%i ", res[i]);
-  }
   printf("\n");
 
   a.arena_free(&a);
