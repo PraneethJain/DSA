@@ -11,7 +11,10 @@ int main()
   heap *h = init_heap(&a, 100000);
   insert(h, 5);
   insert(h, 2);
-  insert(h, -19);
+  insert(h, 1);
+  insert(h, 100);
+  insert(h, 24);
+  insert(h, 33);
   print(h);
 
   a.arena_free(&a);

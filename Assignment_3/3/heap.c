@@ -21,6 +21,13 @@ void arena_free(Arena *a)
   a->offset = 0;
 }
 
+void swap(int *x, int *y)
+{
+  int temp = *x;
+  *x = *y;
+  *y = temp;
+}
+
 heap *init_heap(Arena *a, size_t capacity)
 {
   heap *h = (heap *)a->arena_alloc(a, sizeof(heap));
@@ -34,7 +41,13 @@ heap *init_heap(Arena *a, size_t capacity)
 
 void insert(heap *h, int x)
 {
-  h->arr[h->length++] = x;
+  h->arr[1 + h->length++] = x;
+  size_t cur = h->length;
+  while (cur != 1 && h->arr[cur] <= h->arr[cur / 2])
+  {
+    swap(&h->arr[cur], &h->arr[cur / 2]);
+    cur /= 2;
+  }
 }
 
 void print(heap *h)
