@@ -28,9 +28,15 @@ void swap(int *x, int *y)
   *y = temp;
 }
 
-int min(int x, int y)
+int min(int x, int y, int z)
 {
-  return x > y ? y : x;
+  int res = x;
+  if (y < res)
+    res = y;
+  if (z < res)
+    res = z;
+
+  return res;
 }
 
 heap *init_heap(Arena *a, size_t capacity)
@@ -77,6 +83,19 @@ int pop(heap *h)
   }
 
   return to_return;
+}
+
+heap *heapify(Arena *a, int *arr, size_t length)
+{
+  heap *h = (heap *)a->arena_alloc(a, sizeof(heap));
+  h->capacity = length;
+  h->arr = (int *)a->arena_alloc(a, sizeof(int) * length + 1);
+  for (size_t i = 1; i <= length; ++i)
+    h->arr[i] = arr[i];
+
+  h->length = length;
+
+  return h;
 }
 
 void print(heap *h)
