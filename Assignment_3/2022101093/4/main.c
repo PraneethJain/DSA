@@ -10,11 +10,14 @@ int main()
   size_t length;
   scanf("%zu", &length);
 
+  heap *h = init_heap(&a, 100000);
   int arr[length + 1];
   for (size_t i = 1; i <= length; ++i)
+  {
     scanf("%i", &arr[i]);
+    insert(h, arr[i]);
+  }
 
-  heap *h = heapify(&a, arr, length);
   int res[length + 1];
   size_t cur_index = 1;
   while (!is_empty(h))

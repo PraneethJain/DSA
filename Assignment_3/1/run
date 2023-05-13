@@ -1,3 +1,0 @@
-gcc main.c hash.c -Wall -fsanitize=address,undefined
-./a.out
-rm a.out

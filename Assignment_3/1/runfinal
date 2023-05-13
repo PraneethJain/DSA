@@ -1,3 +1,0 @@
-gcc -std=c99 -Wall -O2 -lm -fmax-errors=5 -march=native -s oj.c
-./a.out
-rm a.out
