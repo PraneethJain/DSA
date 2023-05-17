@@ -18,7 +18,7 @@ void *arena_alloc(Arena *a, size_t size);
 void arena_free(Arena *a);
 
 void swap(int *x, int *y);
-int min(int x, int y, int z);
+int max(int x, int y, int z);
 
 typedef struct heap
 {

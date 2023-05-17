@@ -28,12 +28,12 @@ void swap(int *x, int *y)
   *y = temp;
 }
 
-int min(int x, int y, int z)
+int max(int x, int y, int z)
 {
   int res = x;
-  if (y < res)
+  if (y > res)
     res = y;
-  if (z < res)
+  if (z > res)
     res = z;
 
   return res;
@@ -53,7 +53,7 @@ heap *init_heap(Arena *a, size_t capacity)
 void sift_up(heap *h, size_t idx)
 {
   size_t cur = idx;
-  while (cur != 1 && h->arr[cur] < h->arr[cur / 2])
+  while (cur != 1 && h->arr[cur] > h->arr[cur / 2])
   {
     swap(&h->arr[cur], &h->arr[cur / 2]);
     cur /= 2;
@@ -67,11 +67,11 @@ void sift_down(heap *h, size_t idx)
   while (2 * cur <= h->length)
   {
     if (2 * cur + 1 <= h->length)
-      next_idx = h->arr[2 * cur] < h->arr[2 * cur + 1] ? 2 * cur : 2 * cur + 1;
+      next_idx = h->arr[2 * cur] > h->arr[2 * cur + 1] ? 2 * cur : 2 * cur + 1;
     else
       next_idx = 2 * cur;
 
-    if (h->arr[cur] > h->arr[next_idx])
+    if (h->arr[cur] < h->arr[next_idx])
       swap(&h->arr[cur], &h->arr[next_idx]);
     else
       break;
@@ -99,6 +99,12 @@ int pop(heap *h)
   sift_down(h, 1);
 
   return to_return;
+}
+
+void decrement_top(heap *h)
+{
+  --h->arr[1];
+  sift_down(h, 1);
 }
 
 bool is_empty(heap *h)
