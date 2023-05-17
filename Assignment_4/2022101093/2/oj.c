@@ -17,7 +17,7 @@ void arena_init(Arena *a, unsigned char *buffer, size_t buffer_length);
 void *arena_alloc(Arena *a, size_t size);
 void arena_free(Arena *a);
 
-void swap(int *x, int *y);
+void swap(pair *x, pair *y);
 int min(int x, int y, int z);
 
 typedef struct pair
@@ -27,21 +27,21 @@ typedef struct pair
 } pair;
 
 pair *init_pair(Arena *a, int first, int second);
+int cmp_pair(pair *p1, pair *p2);
 
 typedef struct heap
 {
   size_t capacity;
-  int *arr;
+  pair **arr;
   size_t length;
 } heap;
 
 heap *init_heap(Arena *a, size_t capacity);
 void sift_up(heap *h, size_t idx);
 void sift_down(heap *h, size_t idx);
-void insert(heap *h, int x);
-int top(heap *h);
-int pop(heap *h);
-void decrement_top(heap *h);
+void insert(heap *h, pair *x);
+pair *top(heap *h);
+pair *pop(heap *h);
 bool is_empty(heap *h);
 void print(heap *h);
 
@@ -68,9 +68,9 @@ void arena_free(Arena *a)
   a->offset = 0;
 }
 
-void swap(int *x, int *y)
+void swap(pair *x, pair *y)
 {
-  int temp = *x;
+  pair temp = *x;
   *x = *y;
   *y = temp;
 }
@@ -96,13 +96,25 @@ pair *init_pair(Arena *a, int first, int second)
   return p;
 }
 
+int cmp_pair(pair *p1, pair *p2)
+{
+  if (p1->first < p2->first)
+    return 1;
+  if (p1->first > p2->first)
+    return 0;
+  if (p1->second < p2->second)
+    return 1;
+
+  return 0;
+}
+
 heap *init_heap(Arena *a, size_t capacity)
 {
   heap *h = (heap *)a->arena_alloc(a, sizeof(heap));
 
   h->capacity = capacity;
   h->length = 0;
-  h->arr = (int *)a->arena_alloc(a, sizeof(int) * (capacity + 1));
+  h->arr = (pair **)a->arena_alloc(a, sizeof(pair *) * (capacity + 1));
 
   return h;
 }
@@ -110,7 +122,7 @@ heap *init_heap(Arena *a, size_t capacity)
 void sift_up(heap *h, size_t idx)
 {
   size_t cur = idx;
-  while (cur != 1 && h->arr[cur] < h->arr[cur / 2])
+  while (cur != 1 && cmp_pair(h->arr[cur], h->arr[cur / 2]))
   {
     swap(&h->arr[cur], &h->arr[cur / 2]);
     cur /= 2;
@@ -124,11 +136,11 @@ void sift_down(heap *h, size_t idx)
   while (2 * cur <= h->length)
   {
     if (2 * cur + 1 <= h->length)
-      next_idx = h->arr[2 * cur] < h->arr[2 * cur + 1] ? 2 * cur : 2 * cur + 1;
+      next_idx = cmp_pair(h->arr[2 * cur], h->arr[2 * cur + 1]) ? 2 * cur : 2 * cur + 1;
     else
       next_idx = 2 * cur;
 
-    if (h->arr[cur] > h->arr[next_idx])
+    if (cmp_pair(h->arr[next_idx], h->arr[cur]))
       swap(&h->arr[cur], &h->arr[next_idx]);
     else
       break;
@@ -137,31 +149,25 @@ void sift_down(heap *h, size_t idx)
   }
 }
 
-void insert(heap *h, int x)
+void insert(heap *h, pair *x)
 {
   h->arr[++h->length] = x;
   sift_up(h, h->length);
 }
 
-int top(heap *h)
+pair *top(heap *h)
 {
   return h->arr[1];
 }
 
-int pop(heap *h)
+pair *pop(heap *h)
 {
-  int to_return = h->arr[1];
+  pair *to_return = h->arr[1];
 
   h->arr[1] = h->arr[h->length--];
   sift_down(h, 1);
 
   return to_return;
-}
-
-void decrement_top(heap *h)
-{
-  --h->arr[1];
-  sift_down(h, 1);
 }
 
 bool is_empty(heap *h)
@@ -172,6 +178,6 @@ bool is_empty(heap *h)
 void print(heap *h)
 {
   for (int i = 1; i <= h->length; ++i)
-    printf("%i ", h->arr[i]);
+    printf("%i %i\t", h->arr[i]->first, h->arr[i]->second);
   printf("\n");
 }
