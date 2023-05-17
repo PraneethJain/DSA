@@ -27,7 +27,8 @@ pair *init_pair(Arena *a, int first, int second);
 int cmp_pair(pair *p1, pair *p2);
 
 void swap(pair *x, pair *y);
-int min(int x, int y, int z);
+int min(int x, int y);
+int max(int x, int y);
 
 typedef struct heap
 {
@@ -75,15 +76,14 @@ void swap(pair *x, pair *y)
   *y = temp;
 }
 
-int min(int x, int y, int z)
+int min(int x, int y)
 {
-  int res = x;
-  if (y < res)
-    res = y;
-  if (z < res)
-    res = z;
+  return x < y ? x : y;
+}
 
-  return res;
+int max(int x, int y)
+{
+  return x > y ? x : y;
 }
 
 pair *init_pair(Arena *a, int first, int second)
@@ -211,21 +211,14 @@ int main()
 
     pair *p = pop(h);
     int prev_1 = p->first;
-    int prev_2 = p->first < p->second ? p->first : p->second;
+    int prev_2 = min(p->first, p->second);
     while (!is_empty(h))
     {
       p = pop(h);
-      if (p->second <= p->first)
-      {
-        if (p->second >= prev_2)
-          prev_2 = p->second;
-        else
-          prev_2 = p->first;
-      }
+      if (p->second <= p->first && p->second >= prev_2)
+        prev_2 = p->second;
       else
-      {
         prev_2 = p->first;
-      }
 
       prev_1 = p->first;
     }
