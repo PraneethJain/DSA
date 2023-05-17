@@ -3,6 +3,7 @@
 
 #include <stdbool.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 typedef struct Arena
 {
@@ -17,9 +18,6 @@ void arena_init(Arena *a, unsigned char *buffer, size_t buffer_length);
 void *arena_alloc(Arena *a, size_t size);
 void arena_free(Arena *a);
 
-void swap(pair *x, pair *y);
-int min(int x, int y, int z);
-
 typedef struct pair
 {
   int first;
@@ -28,6 +26,9 @@ typedef struct pair
 
 pair *init_pair(Arena *a, int first, int second);
 int cmp_pair(pair *p1, pair *p2);
+
+void swap(pair *x, pair *y);
+int min(int x, int y, int z);
 
 typedef struct heap
 {
@@ -124,7 +125,7 @@ void sift_up(heap *h, size_t idx)
   size_t cur = idx;
   while (cur != 1 && cmp_pair(h->arr[cur], h->arr[cur / 2]))
   {
-    swap(&h->arr[cur], &h->arr[cur / 2]);
+    swap(h->arr[cur], h->arr[cur / 2]);
     cur /= 2;
   }
 }
@@ -141,7 +142,7 @@ void sift_down(heap *h, size_t idx)
       next_idx = 2 * cur;
 
     if (cmp_pair(h->arr[next_idx], h->arr[cur]))
-      swap(&h->arr[cur], &h->arr[next_idx]);
+      swap(h->arr[cur], h->arr[next_idx]);
     else
       break;
 
@@ -180,4 +181,65 @@ void print(heap *h)
   for (int i = 1; i <= h->length; ++i)
     printf("%i %i\t", h->arr[i]->first, h->arr[i]->second);
   printf("\n");
+}
+
+int main()
+{
+  const size_t buffer_length = 1024 * 1024 * 16;
+  unsigned char *buffer = (unsigned char *)malloc(sizeof(unsigned char) * buffer_length);
+  Arena a = {0};
+  arena_init(&a, buffer, buffer_length);
+
+  size_t T;
+  scanf("%zu", &T);
+  for (size_t i = 0; i < T; ++i)
+  {
+    heap *h = init_heap(&a, 400000);
+    size_t N;
+    scanf("%zu", &N);
+    int A[N];
+    int B[N];
+    for (size_t j = 0; j < N; ++j)
+      scanf("%i", &A[j]);
+    for (size_t j = 0; j < N; ++j)
+      scanf("%i", &B[j]);
+
+    for (size_t j = 0; j < N; ++j)
+    {
+      pair *p = init_pair(&a, A[j], B[j]);
+      insert(h, p);
+    }
+    // print(h);
+
+    pair *p = pop(h);
+    int prev_1 = p->first;
+    int prev_2 = p->first < p->second ? p->first : p->second;
+    // printf("%i %i\n", prev_1, prev_2);
+    while (!is_empty(h))
+    {
+      // print(h);
+      p = pop(h);
+      if (p->second <= p->first)
+      {
+        if (p->second >= prev_2)
+          prev_2 = p->second;
+        else
+          prev_2 = p->first;
+      }
+      else
+      {
+        prev_2 = p->first;
+      }
+
+      prev_1 = p->first;
+
+      // printf("%i %i\n", prev_1, prev_2);
+    }
+
+    printf("%i %i\n", prev_1, prev_2);
+
+    a.arena_free(&a);
+  }
+
+  return 0;
 }
