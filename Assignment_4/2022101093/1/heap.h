@@ -28,11 +28,13 @@ typedef struct heap
 } heap;
 
 heap *init_heap(Arena *a, size_t capacity);
+void sift_up(heap *h, size_t idx);
+void sift_down(heap *h, size_t idx);
 void insert(heap *h, int x);
 int top(heap *h);
 int pop(heap *h);
+void decrement_top(heap *h);
 bool is_empty(heap *h);
-heap *heapify(Arena *a, int *arr, size_t length);
 void print(heap *h);
 
 #endif
