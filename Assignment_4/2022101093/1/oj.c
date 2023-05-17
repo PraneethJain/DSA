@@ -185,6 +185,8 @@ int main()
     ll res = 0;
     for (size_t j = 0; j < K; ++j)
     {
+      if (top(h) <= 0)
+        break;
       res += top(h);
       decrement_top(h);
     }
