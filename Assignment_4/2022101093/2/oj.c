@@ -20,6 +20,14 @@ void arena_free(Arena *a);
 void swap(int *x, int *y);
 int min(int x, int y, int z);
 
+typedef struct pair
+{
+  int first;
+  int second;
+} pair;
+
+pair *init_pair(Arena *a, int first, int second);
+
 typedef struct heap
 {
   size_t capacity;
@@ -76,6 +84,16 @@ int min(int x, int y, int z)
     res = z;
 
   return res;
+}
+
+pair *init_pair(Arena *a, int first, int second)
+{
+  pair *p = (pair *)a->arena_alloc(a, sizeof(pair));
+
+  p->first = first;
+  p->second = second;
+
+  return p;
 }
 
 heap *init_heap(Arena *a, size_t capacity)
