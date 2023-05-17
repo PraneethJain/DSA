@@ -3,7 +3,6 @@
 
 #include <stdbool.h>
 #include <stdio.h>
-#include <stdlib.h>
 
 typedef struct Arena
 {
@@ -186,7 +185,7 @@ void print(heap *h)
 int main()
 {
   const size_t buffer_length = 1024 * 1024 * 16;
-  unsigned char *buffer = (unsigned char *)malloc(sizeof(unsigned char) * buffer_length);
+  unsigned char buffer[buffer_length];
   Arena a = {0};
   arena_init(&a, buffer, buffer_length);
 
@@ -209,15 +208,12 @@ int main()
       pair *p = init_pair(&a, A[j], B[j]);
       insert(h, p);
     }
-    // print(h);
 
     pair *p = pop(h);
     int prev_1 = p->first;
     int prev_2 = p->first < p->second ? p->first : p->second;
-    // printf("%i %i\n", prev_1, prev_2);
     while (!is_empty(h))
     {
-      // print(h);
       p = pop(h);
       if (p->second <= p->first)
       {
@@ -232,12 +228,9 @@ int main()
       }
 
       prev_1 = p->first;
-
-      // printf("%i %i\n", prev_1, prev_2);
     }
 
     printf("%i %i\n", prev_1, prev_2);
-
     a.arena_free(&a);
   }
 
