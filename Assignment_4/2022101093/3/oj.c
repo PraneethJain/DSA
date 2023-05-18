@@ -62,21 +62,25 @@ void arena_free(Arena *a)
 
 int compare(char *str1, char *str2)
 {
-  size_t idx1 = 0;
-  size_t idx2 = 0;
-  while (str1[idx1] != '\0' && str2[idx2] != '\0')
+  size_t i = 0;
+  while (str1[i] != '\0' && str2[i] != '\0')
   {
-    if (str1[idx1] == str2[idx2])
+    if (str1[i] == str2[i])
     {
-      ++idx1;
-      ++idx2;
+      ++i;
       continue;
     }
 
-    return str1[idx1] < str2[idx2];
+    if (i % 2 == 1) // Even case as 1 indexed
+      return str1[i] > str2[i];
+    else
+      return str1[i] < str2[i];
   }
 
-  return str1[idx1] == '\0';
+  if (str1[i] == '\0') // then i is length of A
+    return i % 2 == 1;
+  else // then i is length of B
+    return i % 2 == 0;
 }
 
 void swap(char **x, char **y)
