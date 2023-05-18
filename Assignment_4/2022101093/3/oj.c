@@ -17,7 +17,7 @@ void arena_init(Arena *a, unsigned char *buffer, size_t buffer_length);
 void *arena_alloc(Arena *a, size_t size);
 void arena_free(Arena *a);
 
-int compare(char *x, char *y);
+int compare(char *str1, char *str2);
 void swap(char **x, char **y);
 
 typedef struct heap
@@ -67,7 +67,11 @@ int compare(char *str1, char *str2)
   while (str1[idx1] != '\0' && str2[idx2] != '\0')
   {
     if (str1[idx1] == str2[idx2])
+    {
+      ++idx1;
+      ++idx2;
       continue;
+    }
 
     return str1[idx1] < str2[idx2];
   }
@@ -173,17 +177,13 @@ int main()
   Arena a = {0};
   arena_init(&a, buffer, buffer_length);
 
-  heap *h = init_heap(&a, 400000);
-  insert(h, "hello");
-  insert(h, "banana");
-  insert(h, "z");
-  insert(h, "a");
-  // for (int i = 0; i < 3; ++i)
-  // {
-  //   char s[100];
-  //   scanf("%s", s);
-  //   insert(h, s);
-  // }
+  heap *h = init_heap(&a, 100000);
+  for (int i = 0; i < 5; ++i)
+  {
+    char *s = (char *)a.arena_alloc(&a, sizeof(char) * 100);
+    scanf("%s", s);
+    printf("here\n");
+  }
   print(h);
   // size_t T;
   // scanf("%zu", &T);
