@@ -177,16 +177,31 @@ int main()
   Arena a = {0};
   arena_init(&a, buffer, buffer_length);
 
-  heap *h = init_heap(&a, 100000);
-  for (int i = 0; i < 5; ++i)
+  size_t T;
+  scanf("%zu", &T);
+
+  for (size_t i = 0; i < T; ++i)
   {
-    char *s = (char *)a.arena_alloc(&a, sizeof(char) * 100);
-    scanf("%s", s);
-    printf("here\n");
+    heap *h = init_heap(&a, 100000);
+    size_t N;
+    scanf("%zu", &N);
+
+    for (size_t j = 0; j < N; ++j)
+    {
+      size_t length;
+      scanf("%zu", &length);
+      char *str = (char *)a.arena_alloc(&a, sizeof(char) * (length + 1));
+      scanf("%s", str);
+      insert(h, str);
+    }
+
+    while (!is_empty(h))
+    {
+      printf("%s\n", pop(h));
+    }
+
+    a.arena_free(&a);
   }
-  print(h);
-  // size_t T;
-  // scanf("%zu", &T);
 
   return 0;
 }
