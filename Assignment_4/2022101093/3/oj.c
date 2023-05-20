@@ -104,7 +104,6 @@ heap *init_heap(Arena *a, size_t capacity)
 void sift_up(heap *h, size_t idx)
 {
   size_t cur = idx;
-  // while (cur != 1 && h->arr[cur] < h->arr[cur / 2])
   while (cur != 1 && compare(h->arr[cur], h->arr[cur / 2]))
   {
     swap(&h->arr[cur], &h->arr[cur / 2]);
@@ -123,7 +122,6 @@ void sift_down(heap *h, size_t idx)
     else
       next_idx = 2 * cur;
 
-    // if (h->arr[cur] > h->arr[next_idx])
     if (compare(h->arr[next_idx], h->arr[cur]))
       swap(&h->arr[cur], &h->arr[next_idx]);
     else
@@ -172,11 +170,9 @@ void print(heap *h)
   printf("\n");
 }
 
-#define ll long long
-
 int main()
 {
-  const size_t buffer_length = 1024 * 1024;
+  const size_t buffer_length = 1024 * 1024 * 16;
   unsigned char buffer[buffer_length];
   Arena a = {0};
   arena_init(&a, buffer, buffer_length);
@@ -186,7 +182,7 @@ int main()
 
   for (size_t i = 0; i < T; ++i)
   {
-    heap *h = init_heap(&a, 100000);
+    heap *h = init_heap(&a, 400000);
     size_t N;
     scanf("%zu", &N);
 
