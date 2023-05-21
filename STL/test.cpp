@@ -1,6 +1,8 @@
 #include <algorithm>
+#include <chrono>
 #include <ios>
 #include <iostream>
+#include <random>
 #include <vector>
 
 using ll = long long;
@@ -30,6 +32,10 @@ int main()
   print_vector(x);
 
   std::sort(x.rbegin(), x.rend());
+  print_vector(x);
+
+  unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+  std::shuffle(x.begin(), x.end(), std::default_random_engine(seed));
   print_vector(x);
 
   return 0;
