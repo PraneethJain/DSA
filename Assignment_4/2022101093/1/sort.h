@@ -1,5 +1,5 @@
-#ifndef __HEAP_H
-#define __HEAP_H
+#ifndef __SORT_H
+#define __SORT_H
 
 #include <stdbool.h>
 #include <stdio.h>

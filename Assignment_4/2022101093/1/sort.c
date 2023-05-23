@@ -1,43 +1,4 @@
-#ifndef __HEAP_H
-#define __HEAP_H
-
-#include <stdbool.h>
-#include <stdio.h>
-
-typedef struct Arena
-{
-  unsigned char *buffer;
-  size_t buffer_length;
-  size_t offset;
-  void *(*arena_alloc)(struct Arena *a, size_t size);
-  void (*arena_free)(struct Arena *a);
-} Arena;
-
-void arena_init(Arena *a, unsigned char *buffer, size_t buffer_length);
-void *arena_alloc(Arena *a, size_t size);
-void arena_free(Arena *a);
-
-void swap(int *x, int *y);
-int max(int x, int y, int z);
-
-typedef struct heap
-{
-  size_t capacity;
-  int *arr;
-  size_t length;
-} heap;
-
-heap *init_heap(Arena *a, size_t capacity);
-void sift_up(heap *h, size_t idx);
-void sift_down(heap *h, size_t idx);
-void insert(heap *h, int x);
-int top(heap *h);
-int pop(heap *h);
-void decrement_top(heap *h);
-bool is_empty(heap *h);
-void print(heap *h);
-
-#endif
+#include "sort.h"
 
 void arena_init(Arena *a, unsigned char *buffer, size_t buffer_length)
 {
@@ -156,45 +117,4 @@ void print(heap *h)
   for (int i = 1; i <= h->length; ++i)
     printf("%i ", h->arr[i]);
   printf("\n");
-}
-
-#define ll long long
-
-int main()
-{
-  const size_t buffer_length = 1024 * 1024;
-  unsigned char buffer[buffer_length];
-  Arena a = {0};
-  arena_init(&a, buffer, buffer_length);
-
-  size_t T;
-  scanf("%zu", &T);
-  for (size_t i = 0; i < T; ++i)
-  {
-    heap *h = init_heap(&a, 400000);
-
-    size_t N, K;
-    scanf("%zu %zu", &N, &K);
-    int score;
-    for (size_t j = 0; j < N; ++j)
-    {
-      scanf("%i", &score);
-      insert(h, score);
-    }
-
-    ll res = 0;
-    for (size_t j = 0; j < K; ++j)
-    {
-      if (top(h) <= 0)
-        break;
-      res += top(h);
-      decrement_top(h);
-    }
-
-    printf("%lli\n", res);
-
-    a.arena_free(&a);
-  }
-
-  return 0;
 }
