@@ -60,6 +60,9 @@ void arena_init(Arena *a, unsigned char *buffer, size_t buffer_length)
 
 void *arena_alloc(Arena *a, size_t size)
 {
+  if (a->offset + size >= a->buffer_length)
+    return NULL;
+
   void *allocated = (void *)(a->buffer + a->offset);
   a->offset += size;
   return allocated;
@@ -114,7 +117,7 @@ heap *init_heap(Arena *a, size_t capacity)
 
   h->capacity = capacity;
   h->length = 0;
-  h->arr = (int *)a->arena_alloc(a, sizeof(int) * (capacity + 1));
+  h->arr = (int *)a->arena_alloc(a, sizeof(int) * (h->capacity + 1));
 
   return h;
 }
