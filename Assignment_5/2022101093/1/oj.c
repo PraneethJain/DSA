@@ -90,8 +90,8 @@ node *init_node(Arena *a, int val)
 graph *init_graph(Arena *a, size_t num_vertices)
 {
   graph *g = (graph *)a->arena_alloc(a, sizeof(graph));
-  g->list = (node **)a->arena_alloc(a, sizeof(node *) * num_vertices);
-  for (size_t i = 0; i < num_vertices; ++i)
+  g->list = (node **)a->arena_alloc(a, sizeof(node *) * (num_vertices + 1));
+  for (size_t i = 1; i <= num_vertices; ++i)
     g->list[i] = NULL;
 
   return g;
@@ -99,6 +99,13 @@ graph *init_graph(Arena *a, size_t num_vertices)
 
 void insert_edge(Arena *a, graph *g, int v1, int v2)
 {
+  node *temp = g->list[v1];
+  g->list[v1] = init_node(a, v2);
+  g->list[v1]->next = temp;
+
+  temp = g->list[v2];
+  g->list[v2] = init_node(a, v1);
+  g->list[v2]->next = temp;
 }
 
 heap *init_heap(Arena *a, size_t capacity)
@@ -191,10 +198,12 @@ int main()
   size_t n, m;
   scanf("%zu %zu", &n, &m);
 
+  graph *g = init_graph(&a, n);
   int x, y;
   for (size_t i = 0; i < m; ++i)
   {
     scanf("%i %i", &x, &y);
+    insert_edge(&a, g, x, y);
   }
 
   a.arena_free(&a);
