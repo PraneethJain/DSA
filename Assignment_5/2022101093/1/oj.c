@@ -22,6 +22,8 @@ typedef struct node
   struct node *next;
 } node;
 
+node *init_node(Arena *a, int val);
+
 typedef struct graph
 {
   size_t num_vertices;
@@ -76,10 +78,19 @@ void swap(int *x, int *y)
   *y = temp;
 }
 
+node *init_node(Arena *a, int val)
+{
+  node *n = (node *)a->arena_alloc(a, sizeof(node));
+  n->val = val;
+  n->next = NULL;
+
+  return n;
+}
+
 graph *init_graph(Arena *a, size_t num_vertices)
 {
   graph *g = (graph *)a->arena_alloc(a, sizeof(graph));
-  g->list = (node **)a->arena_alloc(a, sizeof(node *)*num_vertices);
+  g->list = (node **)a->arena_alloc(a, sizeof(node *) * num_vertices);
   for (size_t i = 0; i < num_vertices; ++i)
     g->list[i] = NULL;
 
@@ -88,7 +99,6 @@ graph *init_graph(Arena *a, size_t num_vertices)
 
 void insert_edge(Arena *a, graph *g, int v1, int v2)
 {
-
 }
 
 heap *init_heap(Arena *a, size_t capacity)
@@ -186,7 +196,6 @@ int main()
   {
     scanf("%i %i", &x, &y);
   }
-
 
   a.arena_free(&a);
   return 0;
