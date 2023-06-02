@@ -1,6 +1,6 @@
+#include <limits.h>
 #include <stdbool.h>
 #include <stdio.h>
-#include <limits.h>
 
 typedef struct Arena
 {
@@ -143,18 +143,43 @@ int main()
     size_t n, m;
     scanf("%zu %zu", &n, &m);
     short grid[n][m];
-    int costs[n][m];
+    int cost[n][m];
     for (int i = 0; i < n; ++i)
     {
       for (int j = 0; j < m; ++j)
       {
         scanf("%hi", &grid[i][j]);
-        costs[i][j] = INT_MAX;
+        cost[i][j] = INT_MAX;
       }
     }
-    costs[0][0] = 0;
+    cost[0][0] = 0;
 
     deque q = init_deque(&a);
+    push_back(&a, q, 0, 0);
+
+    while (!is_empty(q))
+    {
+      int x, y;
+      pop_front(q, &x, &y);
+      const int neighbours[4][2] = {{x - 1, y}, {x + 1, y}, {x, y - 1}, {x, y + 1}};
+      for (int i = 0; i < 4; ++i)
+      {
+        int next_x = neighbours[i][0];
+        int next_y = neighbours[i][1];
+
+        if (next_x >= 0 && next_x < n && next_y >= 0 && next_y < m)
+        {
+          int weight = grid[x][y] == grid[next_x][next_y] ? 0 : 1;
+          if (cost[next_x][next_y] > cost[x][y] + weight)
+          {
+            cost[next_x][next_y] = cost[x][y] + weight;
+            weight == 1 ? push_back(&a, q, next_x, next_y) : push_front(&a, q, next_x, next_y);
+          }
+        }
+      }
+    }
+
+    printf("%i\n", cost[n-1][m-1]);
     a.arena_free(&a);
   }
 
