@@ -53,8 +53,6 @@ deque init_deque(Arena *a);
 void push_back(Arena *a, deque head, int x, int y);
 void pop_front(deque head, int *x, int *y);
 void push_front(Arena *a, deque head, int x, int y);
-void pop_back(deque head, int *x, int *y);
-void print(deque head);
 bool is_empty(deque head);
 
 deque init_deque(Arena *a)
@@ -99,29 +97,6 @@ void push_front(Arena *a, deque head, int x, int y)
   new->next = old_first;
   old_first->prev = new;
   head->next = new;
-}
-
-void pop_back(deque head, int *x, int *y)
-{
-  node *old_last = head->prev;
-  old_last->prev->next = head;
-  head->prev = old_last->prev;
-
-  *x = old_last->x;
-  *y = old_last->y;
-}
-
-void Print(deque head)
-{
-  node *cur = head->next;
-
-  while (cur != head)
-  {
-    printf("%i %i\n", cur->x, cur->y);
-    cur = cur->next;
-  }
-
-  printf("\n");
 }
 
 bool is_empty(deque head)
@@ -179,7 +154,7 @@ int main()
       }
     }
 
-    printf("%i\n", cost[n-1][m-1]);
+    printf("%i\n", cost[n - 1][m - 1]);
     a.arena_free(&a);
   }
 
