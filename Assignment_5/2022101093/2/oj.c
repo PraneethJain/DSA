@@ -1,5 +1,6 @@
 #include <stdbool.h>
 #include <stdio.h>
+#include <limits.h>
 
 typedef struct Arena
 {
@@ -40,7 +41,8 @@ void arena_free(Arena *a)
 
 typedef struct node
 {
-  int val;
+  int x;
+  int y;
   struct node *next;
   struct node *prev;
 } node;
@@ -48,10 +50,10 @@ typedef struct node
 typedef struct node *deque;
 
 deque init_deque(Arena *a);
-void push_back(Arena *a, deque head, int val);
-int pop_front(deque head);
-void push_front(Arena *a, deque head, int val);
-int pop_back(deque head);
+void push_back(Arena *a, deque head, int x, int y);
+void pop_front(deque head, int *x, int *y);
+void push_front(Arena *a, deque head, int x, int y);
+void pop_back(deque head, int *x, int *y);
 void print(deque head);
 bool is_empty(deque head);
 
@@ -64,10 +66,11 @@ deque init_deque(Arena *a)
   return q;
 }
 
-void push_back(Arena *a, deque head, int val)
+void push_back(Arena *a, deque head, int x, int y)
 {
   node *new = (node *)a->arena_alloc(a, sizeof(node));
-  new->val = val;
+  new->x = x;
+  new->y = y;
 
   node *old_last = head->prev;
   head->prev = new;
@@ -76,19 +79,21 @@ void push_back(Arena *a, deque head, int val)
   old_last->next = new;
 }
 
-int pop_front(deque head)
+void pop_front(deque head, int *x, int *y)
 {
   node *old_first = head->next;
   head->next = old_first->next;
   old_first->next->prev = head;
-  int val = old_first->val;
-  return val;
+
+  *x = old_first->x;
+  *y = old_first->y;
 }
 
-void push_front(Arena *a, deque head, int val)
+void push_front(Arena *a, deque head, int x, int y)
 {
   node *new = (node *)a->arena_alloc(a, sizeof(node));
-  new->val = val;
+  new->x = x;
+  new->y = y;
   node *old_first = head->next;
   new->prev = head;
   new->next = old_first;
@@ -96,13 +101,14 @@ void push_front(Arena *a, deque head, int val)
   head->next = new;
 }
 
-int pop_back(deque head)
+void pop_back(deque head, int *x, int *y)
 {
   node *old_last = head->prev;
   old_last->prev->next = head;
   head->prev = old_last->prev;
-  int val = old_last->val;
-  return val;
+
+  *x = old_last->x;
+  *y = old_last->y;
 }
 
 void Print(deque head)
@@ -111,7 +117,7 @@ void Print(deque head)
 
   while (cur != head)
   {
-    printf("%i ", cur->val);
+    printf("%i %i\n", cur->x, cur->y);
     cur = cur->next;
   }
 
@@ -125,6 +131,32 @@ bool is_empty(deque head)
 
 int main()
 {
+  const size_t buffer_length = 1024 * 1024;
+  unsigned char buffer[buffer_length];
+  Arena a = {0};
+  arena_init(&a, buffer, buffer_length);
+
+  int T;
+  scanf("%i", &T);
+  for (int t = 0; t < T; ++t)
+  {
+    size_t n, m;
+    scanf("%zu %zu", &n, &m);
+    short grid[n][m];
+    int costs[n][m];
+    for (int i = 0; i < n; ++i)
+    {
+      for (int j = 0; j < m; ++j)
+      {
+        scanf("%hi", &grid[i][j]);
+        costs[i][j] = INT_MAX;
+      }
+    }
+    costs[0][0] = 0;
+
+    deque q = init_deque(&a);
+    a.arena_free(&a);
+  }
 
   return 0;
 }
