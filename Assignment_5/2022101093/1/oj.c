@@ -46,7 +46,6 @@ void sift_down(heap *h, size_t idx);
 void insert(heap *h, int x);
 int top(heap *h);
 int pop(heap *h);
-void decrement_top(heap *h);
 bool is_empty(heap *h);
 void print(heap *h);
 
@@ -122,7 +121,7 @@ heap *init_heap(Arena *a, size_t capacity)
 void sift_up(heap *h, size_t idx)
 {
   size_t cur = idx;
-  while (cur != 1 && h->arr[cur] > h->arr[cur / 2])
+  while (cur != 1 && h->arr[cur] < h->arr[cur / 2])
   {
     swap(&h->arr[cur], &h->arr[cur / 2]);
     cur /= 2;
@@ -136,11 +135,11 @@ void sift_down(heap *h, size_t idx)
   while (2 * cur <= h->length)
   {
     if (2 * cur + 1 <= h->length)
-      next_idx = h->arr[2 * cur] > h->arr[2 * cur + 1] ? 2 * cur : 2 * cur + 1;
+      next_idx = h->arr[2 * cur] < h->arr[2 * cur + 1] ? 2 * cur : 2 * cur + 1;
     else
       next_idx = 2 * cur;
 
-    if (h->arr[cur] < h->arr[next_idx])
+    if (h->arr[cur] > h->arr[next_idx])
       swap(&h->arr[cur], &h->arr[next_idx]);
     else
       break;
@@ -168,12 +167,6 @@ int pop(heap *h)
   sift_down(h, 1);
 
   return to_return;
-}
-
-void decrement_top(heap *h)
-{
-  --h->arr[1];
-  sift_down(h, 1);
 }
 
 bool is_empty(heap *h)
@@ -205,6 +198,31 @@ int main()
     scanf("%i %i", &x, &y);
     insert_edge(&a, g, x, y);
   }
+
+  bool seen[n+1];
+  for (size_t i = 1; i <= n; ++i)
+    seen[i] = false;
+
+  heap *h = init_heap(&a, n);
+  insert(h, 1);
+  seen[1] = true;
+  while (!is_empty(h))
+  {
+    int cur = pop(h);
+    printf("%i ", cur);
+
+    node *n = g->list[cur];
+    while (n != NULL)
+    {
+      if (!seen[n->val])
+      {
+        seen[n->val] = true;
+        insert(h, n->val);
+      }
+      n = n->next;
+    }
+  }
+  printf("\n");
 
   a.arena_free(&a);
   return 0;
