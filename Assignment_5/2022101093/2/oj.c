@@ -45,16 +45,26 @@ typedef struct node
   struct node *prev;
 } node;
 
-typedef struct node *Queue;
+typedef struct node *deque;
 
-void push_back(Arena *a, Queue head, int val);
-int pop_front(Queue head);
-void push_front(Arena *a, Queue head, int val);
-int pop_back(Queue head);
-void print(Queue head);
-bool is_empty(Queue head);
+deque init_deque(Arena *a);
+void push_back(Arena *a, deque head, int val);
+int pop_front(deque head);
+void push_front(Arena *a, deque head, int val);
+int pop_back(deque head);
+void print(deque head);
+bool is_empty(deque head);
 
-void push_back(Arena *a, Queue head, int val)
+deque init_deque(Arena *a)
+{
+  deque q = (deque)a->arena_alloc(a, sizeof(node));
+  q->next = q;
+  q->prev = q;
+
+  return q;
+}
+
+void push_back(Arena *a, deque head, int val)
 {
   node *new = (node *)a->arena_alloc(a, sizeof(node));
   new->val = val;
@@ -66,7 +76,7 @@ void push_back(Arena *a, Queue head, int val)
   old_last->next = new;
 }
 
-int pop_front(Queue head)
+int pop_front(deque head)
 {
   node *old_first = head->next;
   head->next = old_first->next;
@@ -75,7 +85,7 @@ int pop_front(Queue head)
   return val;
 }
 
-void push_front(Arena *a, Queue head, int val)
+void push_front(Arena *a, deque head, int val)
 {
   node *new = (node *)a->arena_alloc(a, sizeof(node));
   new->val = val;
@@ -86,7 +96,7 @@ void push_front(Arena *a, Queue head, int val)
   head->next = new;
 }
 
-int pop_back(Queue head)
+int pop_back(deque head)
 {
   node *old_last = head->prev;
   old_last->prev->next = head;
@@ -95,7 +105,7 @@ int pop_back(Queue head)
   return val;
 }
 
-void Print(Queue head)
+void Print(deque head)
 {
   node *cur = head->next;
 
@@ -108,7 +118,7 @@ void Print(Queue head)
   printf("\n");
 }
 
-bool is_empty(Queue head)
+bool is_empty(deque head)
 {
   return head->next == head;
 }
