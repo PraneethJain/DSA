@@ -1,0 +1,5 @@
+#!/usr/bin/bash
+
+gcc main.c sort.c -Wall -fsanitize=address,undefined
+./a.out
+rm a.out
