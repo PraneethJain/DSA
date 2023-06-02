@@ -47,7 +47,7 @@ void insert(heap *h, int x);
 int top(heap *h);
 int pop(heap *h);
 bool is_empty(heap *h);
-void print(heap *h);
+__attribute__((unused)) void print(heap *h);
 
 void arena_init(Arena *a, unsigned char *buffer, size_t buffer_length)
 {
@@ -89,7 +89,8 @@ node *init_node(Arena *a, int val)
 graph *init_graph(Arena *a, size_t num_vertices)
 {
   graph *g = (graph *)a->arena_alloc(a, sizeof(graph));
-  g->list = (node **)a->arena_alloc(a, sizeof(node *) * (num_vertices + 1));
+  g->num_vertices = num_vertices;
+  g->list = (node **)a->arena_alloc(a, sizeof(node *) * (g->num_vertices + 1));
   for (size_t i = 1; i <= num_vertices; ++i)
     g->list[i] = NULL;
 
@@ -174,7 +175,7 @@ bool is_empty(heap *h)
   return h->length == 0;
 }
 
-void print(heap *h)
+__attribute__((unused)) void print(heap *h)
 {
   for (int i = 1; i <= h->length; ++i)
     printf("%i ", h->arr[i]);
@@ -199,7 +200,7 @@ int main()
     insert_edge(&a, g, x, y);
   }
 
-  bool seen[n+1];
+  bool seen[n + 1];
   for (size_t i = 1; i <= n; ++i)
     seen[i] = false;
 
@@ -211,15 +212,15 @@ int main()
     int cur = pop(h);
     printf("%i ", cur);
 
-    node *n = g->list[cur];
-    while (n != NULL)
+    node *neighbour = g->list[cur];
+    while (neighbour != NULL)
     {
-      if (!seen[n->val])
+      if (!seen[neighbour->val])
       {
-        seen[n->val] = true;
-        insert(h, n->val);
+        seen[neighbour->val] = true;
+        insert(h, neighbour->val);
       }
-      n = n->next;
+      neighbour = neighbour->next;
     }
   }
   printf("\n");
