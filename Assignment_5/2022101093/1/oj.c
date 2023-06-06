@@ -1,6 +1,5 @@
 #include <stdbool.h>
 #include <stdio.h>
-#include <stdlib.h>
 
 typedef struct Arena
 {
@@ -83,7 +82,7 @@ void swap(int *x, int *y)
 
 node *init_node(Arena *a, int val)
 {
-  node *n = (node *)malloc(sizeof(node));
+  node *n = (node *)a->arena_alloc(a, sizeof(node));
   n->val = val;
   n->next = NULL;
 
@@ -92,9 +91,9 @@ node *init_node(Arena *a, int val)
 
 graph *init_graph(Arena *a, size_t num_vertices)
 {
-  graph *g = (graph *)malloc(sizeof(graph));
+  graph *g = (graph *)a->arena_alloc(a, sizeof(graph));
   g->num_vertices = num_vertices;
-  g->list = (node **)malloc(sizeof(node *) * (g->num_vertices + 1));
+  g->list = (node **)a->arena_alloc(a, sizeof(node *) * (g->num_vertices + 1));
   for (size_t i = 1; i <= num_vertices; ++i)
     g->list[i] = NULL;
 
@@ -114,11 +113,11 @@ void insert_edge(Arena *a, graph *g, int v1, int v2)
 
 heap *init_heap(Arena *a, size_t capacity)
 {
-  heap *h = (heap *)malloc(sizeof(heap));
+  heap *h = (heap *)a->arena_alloc(a, sizeof(heap));
 
   h->capacity = capacity;
   h->length = 0;
-  h->arr = (int *)malloc(sizeof(int) * (h->capacity + 1));
+  h->arr = (int *)a->arena_alloc(a, sizeof(int) * (h->capacity + 1));
 
   return h;
 }
@@ -188,7 +187,7 @@ __attribute__((unused)) void print(heap *h)
 
 int main()
 {
-  const size_t buffer_length = 1024 * 1024;
+  const size_t buffer_length = 1024 * 1024 * 16;
   unsigned char buffer[buffer_length];
   Arena a = {0};
   arena_init(&a, buffer, buffer_length);
