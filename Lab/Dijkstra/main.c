@@ -98,20 +98,24 @@ int main()
   {
     scanf("%i %i %i", &a, &b, &w);
     insert_edge(g, a, b, w);
-    // insert_edge(g, b, a, w);
   }
 
   print_graph(g);
 
   bool known[n + 1];
   int cost[n + 1];
+  int prev[n + 1];
   for (size_t i = 1; i <= n; ++i)
   {
     known[i] = false;
     cost[i] = INT_MAX;
+    prev[i] = -1;
   }
 
-  cost[2] = 0;
+  printf("Node to start from: ");
+  int start;
+  scanf("%i", &start);
+  cost[start] = 0;
   while (1)
   {
     int min_cost_vertex = -1;
@@ -133,13 +137,21 @@ int main()
     node *n = g->list[min_cost_vertex];
     while (n != NULL)
     {
-      cost[n->val] = min(cost[n->val], min_cost + n->weight);
+      if (min_cost + n->weight < cost[n->val])
+      {
+        cost[n->val] = min_cost + n->weight;
+        prev[n->val] = min_cost_vertex;
+      }
       n = n->next;
     }
   }
 
   for (size_t i = 1; i <= n; ++i)
     printf("%i ", cost[i]);
+  printf("\n");
+
+  for (size_t i = 1; i <= n; ++i)
+    printf("%i ", prev[i]);
   printf("\n");
 
   free_graph(g);
