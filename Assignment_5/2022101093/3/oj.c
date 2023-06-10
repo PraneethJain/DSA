@@ -87,6 +87,16 @@ void pop_front(deque head, int *x, int *y)
   *y = old_first->y;
 }
 
+void pop_back(deque head, int *x, int *y)
+{
+  node *old_last = head->prev;
+  old_last->prev->next = head;
+  head->prev = old_last->prev;
+
+  *x = old_last->x;
+  *y = old_last->y;
+}
+
 void push_front(Arena *a, deque head, int x, int y)
 {
   node *new = (node *)a->arena_alloc(a, sizeof(node));
@@ -111,18 +121,61 @@ int main()
   Arena a = {0};
   arena_init(&a, buffer, buffer_length);
 
-  int T;
-  scanf("%i", &T);
-  for (int t = 0; t < T; ++t)
+  size_t n, m, r;
+  scanf("%zu %zu %zu", &n, &m, &r);
+  int seen[n * m];
+  for (size_t i = 0; i < n * m; ++i)
+    seen[i] = -1;
+
+  int arr[r];
+  int x, y;
+  for (size_t i = 0; i < r; ++i)
   {
-    size_t n, m;
-    scanf("%zu %zu", &n, &m);
-    short grid[n][m];
-
-    deque q = init_deque(&a);
-
-    a.arena_free(&a);
+    scanf("%i %i", &x, &y);
+    --x;
+    --y;
+    arr[i] = m * x + y;
+    seen[m * x + y] = 0;
   }
+
+  int res = 0;
+  for (size_t i = 0; i < r; ++i)
+  {
+    if (seen[arr[i]])
+      continue;
+
+    x = arr[i] / m;
+    y = arr[i] % m;
+    deque q = init_deque(&a);
+    push_front(&a, q, x, y);
+    seen[arr[i]] = 1;
+    int cur = 0;
+    while (!is_empty(q))
+    {
+      pop_front(q, &x, &y);
+      int neighbours[4][2] = {{x - 1, y}, {x + 1, y}, {x, y - 1}, {x, y + 1}};
+      for (size_t j = 0; j < 4; ++j)
+      {
+        if (neighbours[j][0] >= 0 && neighbours[j][0] < n && neighbours[j][1] >= 0 && neighbours[j][1] < m)
+        {
+          int x1 = neighbours[j][0];
+          int y1 = neighbours[j][1];
+          cur += seen[m * x1 + y1] != -1;
+          if (seen[m * x1 + y1] == 0)
+          {
+            push_front(&a, q, neighbours[j][0], neighbours[j][1]);
+            seen[m * neighbours[j][0] + neighbours[j][1]] = 1;
+          }
+        }
+      }
+    }
+    if (cur > res)
+      res = cur;
+  }
+
+  printf("%i\n", res);
+
+  a.arena_free(&a);
 
   return 0;
 }
