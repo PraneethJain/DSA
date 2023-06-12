@@ -15,20 +15,12 @@ void arena_init(Arena *a, unsigned char *buffer, size_t buffer_length);
 void *arena_alloc(Arena *a, size_t size);
 void arena_free(Arena *a);
 
-void swap(int *x, int *y);
-
 typedef struct heap
 {
   size_t capacity;
   int **arr;
   size_t length;
 } heap;
-
-heap *init_heap(Arena *a, size_t capacity);
-void insert(heap *h, int x, int y, int weight);
-void pop(heap *h, int *x, int *y, int *weight);
-bool is_empty(heap *h);
-void print(heap *h);
 
 void arena_init(Arena *a, unsigned char *buffer, size_t buffer_length)
 {
@@ -77,13 +69,9 @@ heap *init_heap(Arena *a, size_t capacity)
   return h;
 }
 
-void insert(heap *h, int x, int y, int weight)
+void sift_up(heap *h, size_t idx)
 {
-  ++h->length;
-  h->arr[h->length][0] = x;
-  h->arr[h->length][1] = y;
-  h->arr[h->length][2] = weight;
-  size_t cur = h->length;
+  size_t cur = idx;
   while (cur != 1 && h->arr[cur][2] < h->arr[cur / 2][2])
   {
     swap(h->arr[cur], h->arr[cur / 2]);
@@ -91,19 +79,14 @@ void insert(heap *h, int x, int y, int weight)
   }
 }
 
-void pop(heap *h, int *x, int *y, int *weight)
+void sift_down(heap *h, size_t idx)
 {
-  *x = h->arr[1][0];
-  *y = h->arr[1][1];
-  *weight = h->arr[1][2];
-
-  h->arr[1] = h->arr[h->length--];
-  size_t cur = 1;
+  size_t cur = idx;
   size_t next_idx;
   while (2 * cur <= h->length)
   {
     if (2 * cur + 1 <= h->length)
-      next_idx = h->arr[2 * cur][2] > h->arr[2 * cur + 1][2] ? 2 * cur + 1 : 2 * cur;
+      next_idx = h->arr[2 * cur][2] < h->arr[2 * cur + 1][2] ? 2 * cur : 2 * cur + 1;
     else
       next_idx = 2 * cur;
 
@@ -111,8 +94,29 @@ void pop(heap *h, int *x, int *y, int *weight)
       swap(h->arr[cur], h->arr[next_idx]);
     else
       break;
+
     cur = next_idx;
   }
+}
+
+void insert(heap *h, int x, int y, int weight)
+{
+  ++h->length;
+  h->arr[h->length][0] = x;
+  h->arr[h->length][1] = y;
+  h->arr[h->length][2] = weight;
+  sift_up(h, h->length);
+}
+
+void pop(heap *h, int *x, int *y, int *w)
+{
+  *x = h->arr[1][0];
+  *y = h->arr[1][1];
+  *w = h->arr[1][2];
+
+  swap(h->arr[1], h->arr[h->length]);
+  --h->length;
+  sift_down(h, 1);
 }
 
 bool is_empty(heap *h)
@@ -145,22 +149,13 @@ int main()
     int costs[n][m];
     for (int i = 0; i < n; ++i)
     {
-      for (int j = 0; j < n; ++j)
+      for (int j = 0; j < m; ++j)
       {
         scanf("%i", &grid[i][j]);
         known[i][j] = false;
         costs[i][j] = INT_MAX;
       }
     }
-
-    //    for (int i = 0; i < n; ++i)
-    //    {
-    //      for (int j = 0; j < m; ++j)
-    //      {
-    //        printf("%i ", grid[i][j]);
-    //      }
-    //      printf("\n");
-    //    }
 
     heap *h = init_heap(&a, n * m);
     for (int i = 0; i < n; ++i)
@@ -172,13 +167,12 @@ int main()
     for (int j = 1; j < m; ++j)
     {
       insert(h, n - 1, j, grid[n - 1][j]);
-      costs[n-1][j] = grid[n-1][j];
+      costs[n - 1][j] = grid[n - 1][j];
     }
 
     int x, y, w;
     while (!is_empty(h))
     {
-//      print(h);
       pop(h, &x, &y, &w);
       if (known[x][y])
         continue;
@@ -202,16 +196,12 @@ int main()
 
     int res = INT_MAX;
     for (int i = 0; i < n; ++i)
-    {
-      if (costs[i][m-1] < res)
-        res = costs[i][m-1];
-    }
+      if (costs[i][m - 1] < res)
+        res = costs[i][m - 1];
 
     for (int j = 0; j < m; ++j)
-    {
       if (costs[0][j] < res)
         res = costs[0][j];
-    }
 
     printf("%i\n", res);
     a.arena_free(&a);
