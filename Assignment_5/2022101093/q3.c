@@ -1,5 +1,6 @@
 #include <limits.h>
 #include <stdbool.h>
+#include <stdlib.h>
 #include <stdio.h>
 
 typedef struct Arena
@@ -87,6 +88,16 @@ void pop_front(deque head, int *x, int *y)
   *y = old_first->y;
 }
 
+void pop_back(deque head, int *x, int *y)
+{
+  node *old_last = head->prev;
+  old_last->prev->next = head;
+  head->prev = old_last->prev;
+
+  *x = old_last->x;
+  *y = old_last->y;
+}
+
 void push_front(Arena *a, deque head, int x, int y)
 {
   node *new = (node *)a->arena_alloc(a, sizeof(node));
@@ -106,57 +117,66 @@ bool is_empty(deque head)
 
 int main()
 {
-  const size_t buffer_length = 1024 * 1024;
-  unsigned char buffer[buffer_length];
+  const size_t buffer_length = 1024 * 1024 * 32;
+  unsigned char *buffer = (unsigned char *)malloc(sizeof(unsigned char *) * buffer_length);
   Arena a = {0};
   arena_init(&a, buffer, buffer_length);
 
-  int T;
-  scanf("%i", &T);
-  for (int t = 0; t < T; ++t)
+  size_t n, m, r;
+  scanf("%zu %zu %zu", &n, &m, &r);
+  int seen[n * m];
+  for (size_t i = 0; i < n * m; ++i)
+    seen[i] = -1;
+
+  int arr[r];
+  int x, y;
+  for (size_t i = 0; i < r; ++i)
   {
-    size_t n, m;
-    scanf("%zu %zu", &n, &m);
-    short grid[n][m];
-    int cost[n][m];
-    for (int i = 0; i < n; ++i)
-    {
-      for (int j = 0; j < m; ++j)
-      {
-        scanf("%hi", &grid[i][j]);
-        cost[i][j] = INT_MAX;
-      }
-    }
-    cost[0][0] = 0;
+    scanf("%i %i", &x, &y);
+    --x;
+    --y;
+    arr[i] = m * x + y;
+    seen[m * x + y] = 0;
+  }
 
+  int res = 0;
+  for (size_t i = 0; i < r; ++i)
+  {
+    if (seen[arr[i]])
+      continue;
+
+    x = arr[i] / m;
+    y = arr[i] % m;
     deque q = init_deque(&a);
-    push_back(&a, q, 0, 0);
-
+    push_front(&a, q, x, y);
+    seen[arr[i]] = 1;
+    int cur = 0;
     while (!is_empty(q))
     {
-      int x, y;
       pop_front(q, &x, &y);
-      const int neighbours[4][2] = {{x - 1, y}, {x + 1, y}, {x, y - 1}, {x, y + 1}};
-      for (int i = 0; i < 4; ++i)
+      int neighbours[4][2] = {{x - 1, y}, {x + 1, y}, {x, y - 1}, {x, y + 1}};
+      for (size_t j = 0; j < 4; ++j)
       {
-        int next_x = neighbours[i][0];
-        int next_y = neighbours[i][1];
-
-        if (next_x >= 0 && next_x < n && next_y >= 0 && next_y < m)
+        if (neighbours[j][0] >= 0 && neighbours[j][0] < n && neighbours[j][1] >= 0 && neighbours[j][1] < m)
         {
-          int weight = grid[x][y] == grid[next_x][next_y] ? 0 : 1;
-          if (cost[next_x][next_y] > cost[x][y] + weight)
+          int x1 = neighbours[j][0];
+          int y1 = neighbours[j][1];
+          cur += seen[m * x1 + y1] != -1;
+          if (seen[m * x1 + y1] == 0)
           {
-            cost[next_x][next_y] = cost[x][y] + weight;
-            weight == 1 ? push_back(&a, q, next_x, next_y) : push_front(&a, q, next_x, next_y);
+            push_front(&a, q, neighbours[j][0], neighbours[j][1]);
+            seen[m * neighbours[j][0] + neighbours[j][1]] = 1;
           }
         }
       }
     }
-
-    printf("%i\n", cost[n - 1][m - 1]);
-    a.arena_free(&a);
+    if (cur > res)
+      res = cur;
   }
+
+  printf("%i\n", res);
+
+  a.arena_free(&a);
 
   return 0;
 }

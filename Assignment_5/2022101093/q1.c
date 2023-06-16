@@ -1,5 +1,6 @@
 #include <stdbool.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 typedef struct Arena
 {
@@ -188,7 +189,7 @@ __attribute__((unused)) void print(heap *h)
 int main()
 {
   const size_t buffer_length = 1024 * 1024 * 16;
-  unsigned char buffer[buffer_length];
+  unsigned char *buffer = (unsigned char *)malloc(sizeof(unsigned char *) * buffer_length);
   Arena a = {0};
   arena_init(&a, buffer, buffer_length);
 
