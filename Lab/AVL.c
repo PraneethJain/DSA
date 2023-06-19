@@ -104,7 +104,7 @@ set insert(set s, int val)
 			}
 			else
 			{
-				s->right = RR(s->right);
+				s->right = LL(s->right);
 				s = RR(s);
 			}
 		}
